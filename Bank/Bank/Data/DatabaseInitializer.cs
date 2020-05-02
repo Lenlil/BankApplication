@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,24 @@ namespace Bank.Data
 {
     public class DatabaseInitializer
     {
-        public void Initialize(ApplicationDbContext context)
-        {
-            //context.Database.EnsureCreated();
+        public void Initialize(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        {           
             context.Database.Migrate();
             SeedData(context);
         }
         private void SeedData(ApplicationDbContext context)
-        {
-            //Om vi vill lägga till testdata gör vi det här genom SeedData..
+        {            
           
             //context.SaveChanges();
+        }
+        private void AddRoleIfNotExists(ApplicationDbContext context, string role)
+        {
+            
+        }
+
+        private void AddIfNotExists (UserManager<IdentityUser> userManager, string user, string role)
+        {
+
         }
     }
 }
