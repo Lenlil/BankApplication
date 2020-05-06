@@ -12,6 +12,8 @@ using Bank.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Bank.Interfaces;
+using Bank.Repositories;
 
 namespace Bank
 {
@@ -27,6 +29,10 @@ namespace Bank
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddTransient<IAccountsRepository, AccountsDbRepository>();
+            services.AddTransient<ICustomersRepository, CustomersDbRepository>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -37,6 +43,7 @@ namespace Bank
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

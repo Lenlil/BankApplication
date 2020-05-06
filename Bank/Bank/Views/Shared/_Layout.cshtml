@@ -1,49 +1,151 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/elements/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="colorlib">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Banken</title>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Bank</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <!--
+    CSS
+    ============================================= -->
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bank</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <header id="header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                @*<div id="logo">
+                    <a href="index.html"><img src="img/logo.png" alt="" title="" /></a>
+                </div>*@
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li class="menu-active"><a href="index.html#home">Home</a></li>
+                        <li><a href="index.html#convert">Convert</a></li>
+                        <li><a href="index.html#feature">Feature</a></li>
+                        <li><a href="index.html#price">Price</a></li>
+                        <li><a href="index.html#blog">Blog</a></li>
+                        <li class="menu-has-children">
+                            <a href="">Pages</a>
+                            <ul>
+                                <li><a href="generic.html">Generic</a></li>
+                                <li><a href="elements.html">Elements</a></li>
+                            </ul>
                         </li>
                     </ul>
-                </div>
+                </nav><!-- #nav-menu-container -->
             </div>
-        </nav>
-    </header>
+        </div>
+    </header><!-- #header -->
+
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        @RenderBody()
+
+        @RenderSection("Scripts", required: false)
+
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer-area section-gap">
         <div class="container">
-            &copy; 2020 - Bank - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">About Us</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">Contact Us</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.
+                        </p>
+                        <p class="number">
+                            012-6532-568-9746 <br>
+                            012-6532-569-9748
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-5  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">Newsletter</h4>
+                        <p>You can trust us. we only send  offers, not a single spam.</p>
+                        <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                            <form class="navbar-form" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get">
+                                <div class="input-group add-on">
+                                    <input class="form-control" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" type="email">
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button class="genric-btn primary circle arrow"><span class="lnr lnr-arrow-right"></span></button>
+                                    </div>
+                                </div>
+                                <div class="info mt-20"></div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap">
+                <p class="footer-text m-0">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+                <div class="footer-social d-flex align-items-center">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+    <script src="js/easing.min.js"></script>
+    <script src="js/hoverIntent.js"></script>
+    <script src="js/superfish.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/parallax.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/mail-script.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
