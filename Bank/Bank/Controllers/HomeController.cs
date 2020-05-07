@@ -6,21 +6,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Bank.Models;
+using Bank.Data;
+using Bank.Interfaces;
+using Bank.ViewModels;
 
 namespace Bank.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext dbContext;
+        private readonly IAccountsRepository _accountsRepository;
+        private readonly ICustomersRepository _customersRepository;
+    
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
+            ICustomersRepository customersRepository)
         {
             _logger = logger;
+            this.dbContext = dbContext;
+            _accountsRepository = accountRepository;
+            _customersRepository = customersRepository;           
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = new StatisticsViewModel();
+            var allAccounts = _accountsRepository.GetList();
+            model.TotalAmountCustomers = _customersRepository.GetList().Count();
+            model.TotalAmountAccounts = allAccounts.Count();          
+            model.TotalAmountBalance = allAccounts.Sum(a => a.Balance);
+
+            return View(model);
         }
 
         public IActionResult Privacy()
