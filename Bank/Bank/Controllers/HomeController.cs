@@ -28,6 +28,7 @@ namespace Bank.Controllers
             _customersRepository = customersRepository;           
         }
 
+        [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
         public IActionResult Index()
         {
             var model = new StatisticsViewModel();

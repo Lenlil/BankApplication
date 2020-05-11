@@ -16,10 +16,12 @@
                     <label>Total number of accounts</label>
                     <p class="text-white">@Model.TotalAmountAccounts</p>
                     <label>Total balance on all accounts</label>
-                    <p class="text-white">@Model.TotalAmountBalance</p>
+                    <p class="text-white">@Model.TotalAmountBalance kr</p>
 
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<partial name="_SearchView" model="@Model.CustomerId" />

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModels
 {
-    public class StatisticsViewModel
-    {
-
+    public class StatisticsViewModel : SearchViewModel
+    {        
         public int TotalAmountCustomers { get; set; }
         public int TotalAmountAccounts { get; set; }
         public decimal TotalAmountBalance { get; set; }

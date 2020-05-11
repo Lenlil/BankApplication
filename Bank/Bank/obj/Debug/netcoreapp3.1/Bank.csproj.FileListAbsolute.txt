@@ -193,3 +193,4 @@ C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netc
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Error.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchView.cshtml.g.cs
