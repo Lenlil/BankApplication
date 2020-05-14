@@ -8,10 +8,10 @@ namespace Bank.Interfaces
 {
     public interface IAccountsRepository
     {
-        IEnumerable<Accounts> GetList();
+        IQueryable<Accounts> GetAll();
         Accounts GetOneByID(int accountId);
         void Create(Accounts account);
         void Update(Accounts account);
-        decimal GetBalanceOnAccount(Accounts account);
+        decimal GetBalanceOnAccount(Accounts account);   
     }
 }

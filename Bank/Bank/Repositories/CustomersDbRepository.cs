@@ -23,9 +23,9 @@ namespace Bank.Repositories
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<Customers> GetList()
+        public IQueryable<Customers> GetAll()
         {
-            return dbContext.Customers.ToList();
+            return dbContext.Customers;
         }
 
         public Customers GetOneByID(int customerId)

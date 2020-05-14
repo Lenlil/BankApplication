@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bank.Data;
 using Bank.Interfaces;
+using Bank.Services;
 using Bank.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,74 +18,96 @@ namespace Bank.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly IAccountsRepository _accountsRepository;
         private readonly ICustomersRepository _customersRepository;
+        private readonly CustomerSearchService _customerSearchService;
 
         public CustomerController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository)
+            ICustomersRepository customersRepository, CustomerSearchService service)
         {
             _logger = logger;
             this.dbContext = dbContext;
             _accountsRepository = accountRepository;
             _customersRepository = customersRepository;
+            _customerSearchService = service;
         }
-        // GET: Customer
+
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Customer/Details/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ShowCustomer(SearchViewModel model)
+        public IActionResult ShowCustomerSearchResults(SearchViewModel model)
         {
             bool ok = true;
 
-            if (_productRepository.GetAllProducts().Any(p => p.Name == model.ProductName))
-            {
-                ModelState.AddModelError(string.Empty, "Product is already exists with this name.");
-                ok = false;
-            }
             if (!ModelState.IsValid || !ok)
             {
-                ModelState.AddModelError(string.Empty, "Please Fill all the fields.");
-                model.MenuItems = SetupMenu("AddProduct");
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                var categoryList = _categoryRepo.GetAllCategories();
-                model.Categories = categoryList.Select(x =>
-                                      new SelectListItem()
-                                      {
-                                          Text = x.CategoryName.ToString(),
-                                          Value = x.CategoryId.ToString()
-
-                                      });
-                var suppliersList = _suppliersRepository.GetAllSuppliers();
-                model.Suppliers = suppliersList.Select(x =>
-                                     new SelectListItem()
-                                     {
-                                         Text = x.CompanyName.ToString(),
-                                         Value = x.SupplierId.ToString()
-
-                                     });
                 return View(model);
             }
 
-            var newProduct = new Products()
-            {
-                ProductName = model.ProductName,
-                UnitPrice = model.UnitPrice,
-                UnitsInStock = model.UnitsInStock,
-                FirstSaleDate = model.FirstSaleDate,
-                QuantityPerUnit = model.QuantityPerUnit,
-                CategoryId = model.CategoryId,
-                SupplierId = model.SupplierId,
-                Discontinued = model.Discontinued,
-            };
+            var name = model.CustomerNameSearch;
+            var city = model.CustomerCitySearch;
+            var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
 
-            _productRepository.CreateProduct(newProduct);
+            var resultsModel = new SearchResultsViewModel();
+            //resultsModel.SearchResultCustomers = resultCustomers;
 
+            return View(resultsModel);
 
-            return RedirectToAction("Products");
         }
+
+        // GET: Customer/Details/5               
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ShowCustomer(SearchViewModel searchModel)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+
+                return View();
+            }
+
+            var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
+
+            var model = new ShowCustomerDetailsViewModel();                            
+            model.CustomerId = customer.CustomerId;
+            model.Gender = customer.Gender;
+            model.Givenname = customer.Givenname;
+            model.Surname =  customer.Surname;
+            model.Streetaddress = customer.Streetaddress;
+            model.City = customer.City;
+            model.Zipcode = customer.Zipcode;
+            model.Country = customer.Country;
+            model.Birthday = customer.Birthday;
+            model.NationalId = customer.NationalId;
+            model.Telephonecountrycode = customer.Telephonecountrycode;
+            model.Telephonenumber = customer.Telephonenumber;
+            model.Emailaddress = customer.Emailaddress;
+
+            //var allAccounts = _accountsRepository.GetAll();
+            //model.CustomerAccounts
+
+            //model.CustomerAccounts = _accountsRepository.;
+            //    _customersRepository.
+
+            return View(model);                      
+        }
+
+        //public IActionResult ShowCustomerById(int id)
+        //{
+        //    var model = new CustomerViewModel();
+        //    var customer = _customersRepository.GetOneByID(id);
+        //    model.Customer = customer;
+
+        //    return View(model);
+        //}
 
         // GET: Customer/Create
         public ActionResult Create()

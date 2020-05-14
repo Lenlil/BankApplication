@@ -8,7 +8,7 @@ namespace Bank.Interfaces
 {
     public interface ICustomersRepository
     {
-        IEnumerable<Customers> GetList();
+        IQueryable<Customers> GetAll();
         Customers GetOneByID(int customerId);
         void Create(Customers customer);
         void Update(Customers customer);

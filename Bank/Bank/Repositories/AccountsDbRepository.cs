@@ -30,9 +30,9 @@ namespace Bank.Repositories
             return balance;
         }
 
-        public IEnumerable<Accounts> GetList()
+        public IQueryable<Accounts> GetAll()
         {
-            return dbContext.Accounts.ToList();
+            return dbContext.Accounts;
         }
 
         public Accounts GetOneByID(int accountId)

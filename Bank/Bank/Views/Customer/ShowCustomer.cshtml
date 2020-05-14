@@ -1,0 +1,42 @@
+﻿@model ShowCustomerDetailsViewModel
+
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="row height align-items-center justify-content-center">
+            <div class="col-lg-10">
+                <div class="generic-banner-content">
+
+                    <h2 class="text-white">Customer Details</h2>
+
+                    <label>Name</label>
+                    <p class="text-white">@Model.Givenname @Model.Surname</p>
+                    <label>Total balance on all accounts</label>
+                    <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
+                    <label>All Accounts</label>
+                    <div class="row">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Account Balance</th>
+                                        <th scope="col">Go to Account View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                    
+                                    @*@foreach (var account in Model.CustomerAccounts)
+                                    {
+                                        <tr>
+                                            <th scope="row">@account.AccountId</th>
+                                            <td>@account.Balance</td>
+                                            <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">Edit</a></td>
+                                        </tr>
+                                    }*@
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

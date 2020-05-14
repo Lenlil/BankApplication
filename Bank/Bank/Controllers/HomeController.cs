@@ -32,8 +32,8 @@ namespace Bank.Controllers
         public IActionResult Index()
         {
             var model = new StatisticsViewModel();
-            var allAccounts = _accountsRepository.GetList();
-            model.TotalAmountCustomers = _customersRepository.GetList().Count();
+            var allAccounts = _accountsRepository.GetAll();
+            model.TotalAmountCustomers = _customersRepository.GetAll().Count();
             model.TotalAmountAccounts = allAccounts.Count();          
             model.TotalAmountBalance = allAccounts.Sum(a => a.Balance);
 

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Bank.Interfaces;
 using Bank.Repositories;
+using Bank.Services;
 
 namespace Bank
 {
@@ -32,6 +33,7 @@ namespace Bank
 
             services.AddTransient<IAccountsRepository, AccountsDbRepository>();
             services.AddTransient<ICustomersRepository, CustomersDbRepository>();
+            services.AddTransient<CustomerSearchService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
