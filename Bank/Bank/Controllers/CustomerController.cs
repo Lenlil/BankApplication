@@ -22,9 +22,10 @@ namespace Bank.Controllers
         private readonly ITransactionsRepository _transactionsRepository;
         private readonly CustomerSearchService _customerSearchService;
         private readonly AccountServices _accountServices;
+        private readonly ViewModelsService _viewmodelsServices;
 
         public CustomerController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices)
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices, ViewModelsService viewmodelsServices)
         {
             _logger = logger;
             this.dbContext = dbContext;
@@ -34,6 +35,7 @@ namespace Bank.Controllers
             _transactionsRepository = transactionsRepository;
             _customerSearchService = searchService;
             _accountServices = accountServices;
+            _viewmodelsServices = viewmodelsServices;
         }     
 
         [HttpPost]
@@ -64,7 +66,7 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ShowCustomer(SearchViewModel searchModel)
+        public IActionResult ShowCustomerBySearchId(SearchViewModel searchModel)
         {
             bool ok = true;
 
@@ -76,46 +78,42 @@ namespace Bank.Controllers
             }
 
             var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
-
-            var model = new ShowCustomerDetailsViewModel(); 
-            
-            model.CustomerId = customer.CustomerId;
-            model.Gender = customer.Gender;
-            model.Givenname = customer.Givenname;
-            model.Surname =  customer.Surname;
-            model.Streetaddress = customer.Streetaddress;
-            model.City = customer.City;
-            model.Zipcode = customer.Zipcode;
-            model.Country = customer.Country;
-            model.Birthday = customer.Birthday;
-            model.NationalId = customer.NationalId;
-            model.Telephonecountrycode = customer.Telephonecountrycode;
-            model.Telephonenumber = customer.Telephonenumber;
-            model.Emailaddress = customer.Emailaddress;
-
             var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
-            model.CustomerAccounts = customerAccounts.Select(x =>
-                                  new AccountViewModel()
-                                  {
-                                      AccountId = x.AccountId,
-                                      Frequency = x.Frequency,
-                                      Created = x.Created,
-                                      Balance = x.Balance
-                                  });
 
+            var model = new ShowCustomerDetailsViewModel();
+
+            _viewmodelsServices.CreateCustomerViewModelForShowDetails(model, customer);           
+            _viewmodelsServices.CreateAccountViewModelForShowDetails(model, customerAccounts);      
             model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
-            return View(model);                      
+            return View("ShowCustomer", model);
         }
 
-        //public IActionResult ShowCustomerById(int id)
-        //{
-        //    var model = new CustomerViewModel();
-        //    var customer = _customersRepository.GetOneByID(id);
-        //    model.Customer = customer;
 
-        //    return View(model);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ShowCustomerById(int customerId)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+
+                return View();
+            }
+
+            var customer = _customersRepository.GetOneByID(customerId);
+            var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
+
+            var model = new ShowCustomerDetailsViewModel();
+
+            _viewmodelsServices.CreateCustomerViewModelForShowDetails(model, customer);
+            _viewmodelsServices.CreateAccountViewModelForShowDetails(model, customerAccounts);
+            model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
+
+            return View("ShowCustomer", model);
+        }
 
         // GET: Customer/Create
         public ActionResult Create()

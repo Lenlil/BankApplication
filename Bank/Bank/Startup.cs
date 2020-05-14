@@ -34,8 +34,9 @@ namespace Bank
             services.AddTransient<ICustomersRepository, CustomersDbRepository>();
             services.AddTransient<ITransactionsRepository, TransactionsDbRepository>();
             services.AddTransient<IDispositionsRepository, DispositionsDbRepository>();
-            services.AddTransient<CustomerSearchService>();
+            services.AddTransient<CustomerSearchService>(); 
             services.AddTransient<AccountServices>();
+            services.AddTransient<ViewModelsService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

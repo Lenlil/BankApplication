@@ -8,7 +8,7 @@
                 <p class="text-white">Search for a customer by Customer ID or by Name and/or City</p>
             </div>
             <div class="row justify-content-center align-items-start">
-                <form asp-action="ShowCustomer" asp-controller="Customer" method="post">
+                <form asp-action="ShowCustomerBySearchId" asp-controller="Customer" method="post">
                     @*<div class="col-lg-2 cols-img">
                             <img class="d-block mx-auto" src="img/bitcoin.png" alt="">
                         </div>*@
@@ -16,7 +16,7 @@
                         <input type="number" placeholder="Customer ID" class="form-control mb-20" asp-for="@Model.CustomerIdSearch">
                         <span style="color:red" asp-validation-for="@Model.CustomerIdSearch"></span>
                         @*<a href="#" class="primary-btn header-btn text-uppercase mb-20">Search by ID</a>*@
-                        <button type="submit" asp-controller="Customer" asp-action="ShowCustomer" class="primary-btn header-btn text-uppercase mb-10">Search by ID</button>
+                        <button type="submit" asp-controller="Customer" asp-action="ShowCustomerBySearchId" class="primary-btn header-btn text-uppercase mb-10">Search by ID</button>
                     </div>
                 </form>
                 <form asp-action="ShowCustomerSearchResults" asp-controller="Customer" method="post">
