@@ -9,7 +9,7 @@ namespace Bank.Services
 {    
     public class CustomerSearchService
     {
-        readonly ICustomersRepository _customersRepository;
+        private readonly ICustomersRepository _customersRepository;
 
         public CustomerSearchService(ICustomersRepository repository)
         {

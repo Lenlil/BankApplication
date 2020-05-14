@@ -21,14 +21,7 @@ namespace Bank.Repositories
         {
             dbContext.Accounts.Add(account);
             dbContext.SaveChanges();
-        }
-
-        public decimal GetBalanceOnAccount(Accounts account)
-        {
-            var accountToCheck = GetOneByID(account.AccountId);
-            decimal balance = accountToCheck.Balance;
-            return balance;
-        }
+        }       
 
         public IQueryable<Accounts> GetAll()
         {
