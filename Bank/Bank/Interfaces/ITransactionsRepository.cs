@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bank.Interfaces
 {
-    interface ITransactionsRepository
+    public interface ITransactionsRepository
     {
         IQueryable<Transactions> GetAll();
         Transactions GetOneByID(int transactionId);

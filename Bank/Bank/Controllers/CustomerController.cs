@@ -18,22 +18,23 @@ namespace Bank.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly IAccountsRepository _accountsRepository;
         private readonly ICustomersRepository _customersRepository;
+        private readonly IDispositionsRepository _dispositionsRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
         private readonly CustomerSearchService _customerSearchService;
+        private readonly AccountServices _accountServices;
 
         public CustomerController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository, CustomerSearchService service)
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices)
         {
             _logger = logger;
             this.dbContext = dbContext;
             _accountsRepository = accountRepository;
-            _customersRepository = customersRepository;
-            _customerSearchService = service;
-        }
-
-        public ActionResult Index()
-        {
-            return View();
-        }
+            _customersRepository = customersRepository;            
+            _dispositionsRepository = dispositionsRepository;
+            _transactionsRepository = transactionsRepository;
+            _customerSearchService = searchService;
+            _accountServices = accountServices;
+        }     
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -76,7 +77,8 @@ namespace Bank.Controllers
 
             var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
 
-            var model = new ShowCustomerDetailsViewModel();                            
+            var model = new ShowCustomerDetailsViewModel(); 
+            
             model.CustomerId = customer.CustomerId;
             model.Gender = customer.Gender;
             model.Givenname = customer.Givenname;
@@ -91,11 +93,17 @@ namespace Bank.Controllers
             model.Telephonenumber = customer.Telephonenumber;
             model.Emailaddress = customer.Emailaddress;
 
-            //var allAccounts = _accountsRepository.GetAll();
-            //model.CustomerAccounts
+            var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
+            model.CustomerAccounts = customerAccounts.Select(x =>
+                                  new AccountViewModel()
+                                  {
+                                      AccountId = x.AccountId,
+                                      Frequency = x.Frequency,
+                                      Created = x.Created,
+                                      Balance = x.Balance
+                                  });
 
-            //model.CustomerAccounts = _accountsRepository.;
-            //    _customersRepository.
+            model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
             return View(model);                      
         }

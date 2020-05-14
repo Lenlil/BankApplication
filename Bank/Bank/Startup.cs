@@ -30,10 +30,12 @@ namespace Bank
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddTransient<IAccountsRepository, AccountsDbRepository>();
             services.AddTransient<ICustomersRepository, CustomersDbRepository>();
+            services.AddTransient<ITransactionsRepository, TransactionsDbRepository>();
+            services.AddTransient<IDispositionsRepository, DispositionsDbRepository>();
             services.AddTransient<CustomerSearchService>();
+            services.AddTransient<AccountServices>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

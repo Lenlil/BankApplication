@@ -19,19 +19,23 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">Frequency</th>
+                                        <th scope="col">Created</th>
                                         <th scope="col">Account Balance</th>
                                         <th scope="col">Go to Account View</th>
                                     </tr>
                                 </thead>
                                 <tbody>                                    
-                                    @*@foreach (var account in Model.CustomerAccounts)
+                                    @foreach (var account in Model.CustomerAccounts)
                                     {
                                         <tr>
                                             <th scope="row">@account.AccountId</th>
+                                            <td>@account.Frequency</td>
+                                            <td>@account.Created</td>
                                             <td>@account.Balance</td>
-                                            <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">Edit</a></td>
+                                            <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">View</a></td>
                                         </tr>
-                                    }*@
+                                    }
                                 </tbody>
                             </table>
                         </div>

@@ -9,6 +9,7 @@ using Bank.Models;
 using Bank.Data;
 using Bank.Interfaces;
 using Bank.ViewModels;
+using Bank.Services;
 
 namespace Bank.Controllers
 {
@@ -18,14 +19,20 @@ namespace Bank.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly IAccountsRepository _accountsRepository;
         private readonly ICustomersRepository _customersRepository;
-    
+        private readonly IDispositionsRepository _dispositionsRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
+        private readonly CustomerSearchService _customerSearchService;
+
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository)
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService)
         {
             _logger = logger;
             this.dbContext = dbContext;
             _accountsRepository = accountRepository;
-            _customersRepository = customersRepository;           
+            _customersRepository = customersRepository;
+            _dispositionsRepository = dispositionsRepository;
+            _transactionsRepository = transactionsRepository;
+            _customerSearchService = searchService;
         }
 
         [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]

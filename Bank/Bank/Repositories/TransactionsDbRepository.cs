@@ -20,7 +20,7 @@ namespace Bank.Repositories
         public void Create(Transactions transaction)
         {
             dbContext.Transactions.Add(transaction);
-            dbContext.SaveChanges()
+            dbContext.SaveChanges();
         }
 
         public IQueryable<Transactions> GetAll()
