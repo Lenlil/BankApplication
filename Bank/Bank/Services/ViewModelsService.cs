@@ -10,7 +10,7 @@ namespace Bank.Services
     public class ViewModelsService
     {
         public ShowCustomerDetailsViewModel CreateCustomerViewModelForShowDetails(ShowCustomerDetailsViewModel model, Customers customer)
-        {
+        {          
             model.CustomerId = customer.CustomerId;
             model.Gender = customer.Gender;
             model.Givenname = customer.Givenname;

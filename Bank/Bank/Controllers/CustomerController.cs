@@ -60,9 +60,7 @@ namespace Bank.Controllers
 
             return View(resultsModel);
 
-        }
-
-        // GET: Customer/Details/5               
+        }                    
 
         [HttpPost]
         [ValidateAntiForgeryToken]

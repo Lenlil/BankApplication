@@ -8,37 +8,55 @@
 
                     <h2 class="text-white">Customer Details</h2>
 
+                    <label>Customer ID</label>
+                    <p class="text-white">@Model.CustomerId</p>
                     <label>Name</label>
                     <p class="text-white">@Model.Givenname @Model.Surname</p>
-                    <label>Total balance on all accounts</label>
-                    <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
-                    <label>All Accounts</label>
+                    <label>Gender</label>
+                    <p class="text-white">@Model.Gender</p>
+                    <label>Address</label>
+                    <p class="text-white">@Model.Streetaddress</p>
+                    <p class="text-white">@Model.Zipcode @Model.City</p>
+                    <p class="text-white">@Model.Country</p>
+                    <label>Birthday</label>
+                    <p class="text-white">@Model.Birthday.Value.ToShortDateString()</p>
+                    <label>National ID</label>
+                    <p class="text-white">@Model.NationalId</p>
+                    <label>Telephone number</label>
+                    <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>
+                    <label>Email</label>
+                    <p class="text-white">@Model.Emailaddress</p>
+
+                    <label>Total Balance - All Accounts</label>
+                    <p class="text-white">@Model.TotalAmountOnAccounts kr</p>            
+
+                    <label>Accounts</label>
                     <div class="row">
 
-                            <table class="table">
-                                <thead>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Frequency</th>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Account Balance</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var account in Model.CustomerAccounts)
+                                {
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Frequency</th>
-                                        <th scope="col">Created</th>
-                                        <th scope="col">Account Balance</th>
-                                        <th scope="col">Go to Account View</th>
+                                        <th scope="row">@account.AccountId</th>
+                                        <td>@account.Frequency</td>
+                                        <td>@account.Created.ToShortDateString()</td>
+                                        <td>@account.Balance</td>
+                                        <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">Account View</a></td>
                                     </tr>
-                                </thead>
-                                <tbody>                                    
-                                    @foreach (var account in Model.CustomerAccounts)
-                                    {
-                                        <tr>
-                                            <th scope="row">@account.AccountId</th>
-                                            <td>@account.Frequency</td>
-                                            <td>@account.Created</td>
-                                            <td>@account.Balance</td>
-                                            <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">View</a></td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

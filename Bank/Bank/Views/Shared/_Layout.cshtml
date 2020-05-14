@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Mobile Specific Meta -->
@@ -17,7 +20,7 @@
     <title>Banken</title>
 
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
@@ -59,10 +62,10 @@
         </div>
     </header><!-- #header -->
 
-    <div class="container">
+    <div>
         @RenderBody()
 
-        @*@RenderSection("Scripts", required: false)*@
+        @RenderSection("Scripts", required: false)
 
         <partial name="_SearchView" model="@new SearchViewModel()" />
 
@@ -149,5 +152,6 @@
     <script src="js/jquery.counterup.min.js"></script>
     <script src="js/mail-script.js"></script>
     <script src="js/main.js"></script>
+
 </body>
 </html>
