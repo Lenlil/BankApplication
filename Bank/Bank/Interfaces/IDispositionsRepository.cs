@@ -9,8 +9,8 @@ namespace Bank.Interfaces
     public interface IDispositionsRepository
     {
         IQueryable<Dispositions> GetAll();
-        Dispositions GetOneByID(int accountId);
-        void Create(Dispositions account);
-        void Update(Dispositions account);
+        Dispositions GetOneByID(int customerId);
+        void Create(Dispositions disposition);
+        void Update(Dispositions disposition);
     }
 }
