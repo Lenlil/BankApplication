@@ -46,20 +46,31 @@ namespace Bank.Controllers
 
             if (!ModelState.IsValid || !ok)
             {
-                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
-
-                return View();
+                ModelState.AddModelError(string.Empty, "Something went wrong.");
+                return View("../Home/Search", searchModel);
             }
 
-            var name = searchModel.CustomerNameSearch;
-            var city = searchModel.CustomerCitySearch;
-            var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
+            var isAFieldFilledIn = _customerSearchService.CheckIfThereAreSearchValuesNameCity(searchModel);
+                       
+            if (isAFieldFilledIn)
+            {
+                var name = searchModel.CustomerNameSearch;
+                var city = searchModel.CustomerCitySearch;
+                var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
 
-            var model = new SearchResultsViewModel();
-            _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);            
+                var model = new SearchResultsViewModel();
+                _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
 
-            return View(model);
+                return View(model);
+            }
+            else
+            {
+                var resultCustomers = _customersRepository.GetAll();
+                var model = new SearchResultsViewModel();
+                _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
 
+                return View(model);
+            }                                                    
         }                    
 
         [HttpPost]
@@ -72,8 +83,8 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                return View("ShowCustomer");
-            }
+                return View("../Home/Search", searchModel);
+            }           
 
             var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
             var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);

@@ -43,15 +43,20 @@ namespace Bank.Services
 
         public SearchResultsViewModel CreateSearchResultsViewModel(SearchResultsViewModel model, IQueryable<Customers> customers)
         {
+            if (customers.Count() == 0)
+            {
+                model.ErrorMessage = "No Results Found.";
+            }
+            
             model.SearchResultCustomers = customers.Select(x =>
-                                 new SearchResultsViewModel.SearchResultsCustomer()
-                                 {
-                                     CustomerId = x.CustomerId,
-                                     NationalId = x.NationalId,
-                                     CustomerName = x.Givenname + " " + x.Surname,
-                                     CustomerAddress = x.Streetaddress,
-                                     CustomerCity = x.City
-                                 });
+                            new SearchResultsViewModel.SearchResultsCustomer()
+                            {
+                                CustomerId = x.CustomerId,
+                                NationalId = x.NationalId,
+                                CustomerName = x.Givenname + " " + x.Surname,
+                                CustomerAddress = x.Streetaddress,
+                                CustomerCity = x.City
+                            });            
 
             return model;
         }

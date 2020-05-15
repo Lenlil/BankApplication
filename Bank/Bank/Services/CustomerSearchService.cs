@@ -1,5 +1,6 @@
 ﻿using Bank.Interfaces;
 using Bank.Models;
+using Bank.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,19 @@ namespace Bank.Services
                 return searchResultCustomers;
             }                                                       
         }  
+
+        public bool CheckIfThereAreSearchValuesNameCity(SearchViewModel model)
+        {
+            var name = model.CustomerNameSearch;
+            var city = model.CustomerCitySearch;           
+
+            if (name == null && city == null)
+            {
+                return false;
+            }
+
+            return true;
+        }     
 
         private IQueryable<Customers> SearchCustomers(IQueryable<Customers> customersToSearch, string firstname, string surname, string city)
         {

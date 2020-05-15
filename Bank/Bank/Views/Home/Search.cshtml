@@ -1,5 +1,5 @@
 ﻿
-@model StatisticsViewModel
+@model SearchViewModel
 
 <!-- Start banner Area -->
 <section class="generic-banner relative">
@@ -8,8 +8,8 @@
             <div class="col-lg-10">
                 <div class="generic-banner-content">
 
-                    <h2 class="text-white">Search For Customers</h2>                
-
+                    <h2 class="text-white">Search For Customers</h2>
+                    <span @Html.ValidationSummary(false, "", new { @class = "text-danger" })></span>
                 </div>
             </div>
         </div>

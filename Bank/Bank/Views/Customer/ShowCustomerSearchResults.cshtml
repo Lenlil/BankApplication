@@ -6,7 +6,7 @@
             <!-- Start service Area -->
             <section class="service-area pt-100" id="feature">
                 <div class="container">
-                    <h2 class="text-white">Search Results</h2>
+                    <h2 class="text-white">Search Results</h2>                    
                 </div>
             </section>
         </div>
@@ -17,12 +17,9 @@
 <div class="main-wrapper">
     <!-- Start service Area -->
     <section class="service-area pt-100" id="feature">
-        <div class="container">
-
-            <h3>Customers Matching Search Values</h3>
-
+        <div class="container">    
+            <label>Customers Matching Search Values</label>
             <div class="row">
-
                 <table class="table">
                     <thead>
                         <tr>
@@ -43,9 +40,12 @@
                             <td>@customer.CustomerName</td>
                             <td>@customer.CustomerAddress</td>
                             <td>@customer.CustomerCity</td>
-                            <td><a asp-action="ShowCustomerById" asp-controller="Customer" asp-route-id="@customer.CustomerId">Customer View</a></td>
-                        </tr>
+                            <td><a asp-controller="Customer" asp-action="ShowCustomerById" asp-route-id="@customer.CustomerId">Customer View</a></td>
+                        </tr>                        
                         }
+                        <tr>
+                            <td><h3>@Model.ErrorMessage</h3></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

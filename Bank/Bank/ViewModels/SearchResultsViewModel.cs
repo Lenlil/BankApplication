@@ -9,6 +9,7 @@ namespace Bank.ViewModels
     public class SearchResultsViewModel 
     {
         public IQueryable<SearchResultsCustomer> SearchResultCustomers { get; set; }
+        public string ErrorMessage { get; set; }
 
         public class SearchResultsCustomer
         {
