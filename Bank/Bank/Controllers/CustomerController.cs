@@ -40,7 +40,7 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ShowCustomerSearchResults(SearchViewModel model)
+        public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
         {
             bool ok = true;
 
@@ -48,17 +48,17 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                return View(model);
+                return View();
             }
 
-            var name = model.CustomerNameSearch;
-            var city = model.CustomerCitySearch;
+            var name = searchModel.CustomerNameSearch;
+            var city = searchModel.CustomerCitySearch;
             var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
 
-            var resultsModel = new SearchResultsViewModel();
-            //resultsModel.SearchResultCustomers = resultCustomers;
+            var model = new SearchResultsViewModel();
+            _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);            
 
-            return View(resultsModel);
+            return View(model);
 
         }                    
 
@@ -72,7 +72,7 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                return View();
+                return View("ShowCustomer");
             }
 
             var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
@@ -98,7 +98,7 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                return View();
+                return View("ShowCustomer");
             }
 
             var customer = _customersRepository.GetOneByID(customerId);

@@ -1,15 +1,55 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@model SearchResultsViewModel
 
-<!DOCTYPE html>
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="main-wrapper">
+            <!-- Start service Area -->
+            <section class="service-area pt-100" id="feature">
+                <div class="container">
+                    <h2 class="text-white">Search Results</h2>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Customer Search Results</title>
-</head>
-<body>
-</body>
-</html>
+<!-- About Generic Start -->
+<div class="main-wrapper">
+    <!-- Start service Area -->
+    <section class="service-area pt-100" id="feature">
+        <div class="container">
+
+            <h3>Customers Matching Search Values</h3>
+
+            <div class="row">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">National ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Street Address</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model.SearchResultCustomers)
+                        {
+                        <tr>
+                            <th scope="row">@customer.CustomerId</th>
+                            <td>@customer.NationalId</td>
+                            <td>@customer.CustomerName</td>
+                            <td>@customer.CustomerAddress</td>
+                            <td>@customer.CustomerCity</td>
+                            <td><a asp-action="ShowCustomerById" asp-controller="Customer" asp-route-id="@customer.CustomerId">Customer View</a></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- End service Area -->

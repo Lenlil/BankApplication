@@ -40,5 +40,20 @@ namespace Bank.Services
                              });
             return model;
         }
+
+        public SearchResultsViewModel CreateSearchResultsViewModel(SearchResultsViewModel model, IQueryable<Customers> customers)
+        {
+            model.SearchResultCustomers = customers.Select(x =>
+                                 new SearchResultsViewModel.SearchResultsCustomer()
+                                 {
+                                     CustomerId = x.CustomerId,
+                                     NationalId = x.NationalId,
+                                     CustomerName = x.Givenname + " " + x.Surname,
+                                     CustomerAddress = x.Streetaddress,
+                                     CustomerCity = x.City
+                                 });
+
+            return model;
+        }
     }
 }

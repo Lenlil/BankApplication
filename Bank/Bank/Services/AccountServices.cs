@@ -67,16 +67,6 @@ namespace Bank.Services
                                        Balance = x.Balance
                                    });
 
-            //foreach (var accountId in customerDispositions)
-            //{
-            //    accountIdList.Add(accountId.AccountId);
-            //}
-
-            //foreach (var accountId in accountIdList)
-            //{
-            //    customerAccountsList.Add(allAccounts.Where(r => r.AccountId == accountId).FirstOrDefault());
-            //}
-
             return customerAccountsList;
         }
     }
