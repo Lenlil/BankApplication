@@ -2,40 +2,164 @@
 
 <section class="generic-banner relative">
     <div class="container">
-        <div class="row height align-items-center justify-content-center">
-            <div class="col-lg-10">
-                <div class="generic-banner-content">
 
+       
+
+        <div class="main-wrapper">
+            <!-- Start service Area -->
+            <section class="service-area pt-100" id="feature">
+                <div class="container">
                     <h2 class="text-white">Customer Details</h2>
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Customer ID</label>
+                                <p class="text-white">@Model.CustomerId</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Name</label>
+                                <p class="text-white">@Model.Givenname @Model.Surname</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Gender</label>
+                                <p class="text-white">@Model.Gender</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Address</label>
+                                <p class="text-white">@Model.Streetaddress</p>
+                                <p class="text-white">@Model.Zipcode @Model.City</p>
+                                <p class="text-white">@Model.Country</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Birthday</label>
+                                <p class="text-white">@Model.Birthday.Value.ToShortDateString()</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>National ID</label>
+                                <p class="text-white">@Model.NationalId</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Telephone number</label>
+                                <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>                               
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="single-service">                           
+                                <label>Email</label>
+                                <p class="text-white">@Model.Emailaddress</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Total Balance - All Accounts</label>
+                                <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
 
-                    <label>Customer ID</label>
-                    <p class="text-white">@Model.CustomerId</p>
-                    <label>Name</label>
-                    <p class="text-white">@Model.Givenname @Model.Surname</p>
-                    <label>Gender</label>
-                    <p class="text-white">@Model.Gender</p>
-                    <label>Address</label>
-                    <p class="text-white">@Model.Streetaddress</p>
-                    <p class="text-white">@Model.Zipcode @Model.City</p>
-                    <p class="text-white">@Model.Country</p>
-                    <label>Birthday</label>
-                    <p class="text-white">@Model.Birthday.Value.ToShortDateString()</p>
-                    <label>National ID</label>
-                    <p class="text-white">@Model.NationalId</p>
-                    <label>Telephone number</label>
-                    <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>
-                    <label>Email</label>
-                    <p class="text-white">@Model.Emailaddress</p>
 
-                    <label>Total Balance - All Accounts</label>
-                    <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
+@*<div class="row height align-items-center justify-content-center">
+    <div class="col-lg-10">
+        <div class="generic-banner-content">
 
-                    
+            <h2 class="text-white">Customer Details</h2>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <label>Customer ID</label>
+                        <p class="text-white">@Model.CustomerId</p>
+                        <label>Name</label>
+                        <p class="text-white">@Model.Givenname @Model.Surname</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <label>Gender</label>
+                        <p class="text-white">@Model.Gender</p>
+                        <label>Address</label>
+                        <p class="text-white">@Model.Streetaddress</p>
+                        <p class="text-white">@Model.Zipcode @Model.City</p>
+                        <p class="text-white">@Model.Country</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+    <div class="col-lg-10">
+        <div class="generic-banner-content">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <label>Birthday</label>
+                        <p class="text-white">@Model.Birthday.Value.ToShortDateString()</p>
+                        <label>National ID</label>
+                        <p class="text-white">@Model.NationalId</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <label>Telephone number</label>
+                        <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>
+                        <label>Email</label>
+                        <p class="text-white">@Model.Emailaddress</p>
+                    </div>
+                </div>
+            </div>
+
+            <label>Total Balance - All Accounts</label>
+            <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
+
+        </div>
+    </div>
+</div>
+    </div>
+</section>*@
 
 <!-- About Generic Start -->
 <div class="main-wrapper">
@@ -43,9 +167,9 @@
     <section class="service-area pt-100" id="feature">
         <div class="container">
 
-            <label>Accounts</label>
+            <h3>Accounts</h3>
 
-            <div class="row">                
+            <div class="row">
 
                 <table class="table">
                     <thead>
@@ -70,7 +194,7 @@
                         }
                     </tbody>
                 </table>
-               
+
             </div>
         </div>
     </section>
