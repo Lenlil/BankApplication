@@ -71,8 +71,8 @@ namespace Bank.Controllers
 
                 return View(model);
             }                                                    
-        }                    
-
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ShowCustomerBySearchId(SearchViewModel searchModel)
@@ -96,12 +96,9 @@ namespace Bank.Controllers
             model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
             return View("ShowCustomer", model);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ShowCustomerById(int customerId)
+        }      
+               
+        public IActionResult ShowCustomer(int customerId)
         {
             bool ok = true;
 
@@ -121,7 +118,7 @@ namespace Bank.Controllers
             _viewmodelsServices.CreateAccountViewModelForShowDetails(model, customerAccounts);
             model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
-            return View("ShowCustomer", model);
+            return View(model);
         }
 
         // GET: Customer/Create
