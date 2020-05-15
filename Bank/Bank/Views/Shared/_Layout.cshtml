@@ -45,12 +45,13 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li><a asp-action="Search" asp-controller="Home">Search</a></li>                       
+                        <li><a asp-action="Search" asp-controller="Customer">Search</a></li>
+                        <li><a asp-action="SelectCustomer" asp-controller="Customer">Select Customer</a></li>
                         <li class="menu-has-children">
-                            <a href="">Pages</a>
+                            <a href="">Search</a>
                             <ul>
-                                <li><a href="generic.html">Generic</a></li>
-                                <li><a href="elements.html">Elements</a></li>
+                                <li><a asp-action="Search" asp-controller="Home">Search by ID</a></li>
+                                <li><a asp-action="Search" asp-controller="Home">Search by Name/City</a></li>
                             </ul>
                         </li>
                     </ul>

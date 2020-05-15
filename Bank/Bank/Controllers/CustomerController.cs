@@ -36,10 +36,65 @@ namespace Bank.Controllers
             _customerSearchService = searchService;
             _accountServices = accountServices;
             _viewmodelsServices = viewmodelsServices;
-        }     
+        }
+
+        public IActionResult SelectCustomer()
+        {
+            var model = new SearchViewModel();            
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]        
+        public IActionResult SelectCustomer(SearchViewModel model)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+
+                return View(model);
+            }
+
+            var customerId = model.CustomerIdSearch;        
+
+            return RedirectToAction("ShowSelectedCustomer","Customer", new { id = customerId });
+        }
+
+        public IActionResult Search()
+        {
+            var model = new SearchViewModel();
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public IActionResult Search(SearchViewModel model)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+
+                return View(model);
+            }
+
+            var isAFieldFilledIn = _customerSearchService.CheckIfThereAreSearchValuesNameCity(model);
+
+            if (isAFieldFilledIn)
+            {
+                return RedirectToAction("ShowCustomerSearchResults", "Customer", model);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in one of the required fields.");
+
+                return View(model);
+            }            
+        }
+        
         public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
         {
             bool ok = true;
@@ -47,69 +102,31 @@ namespace Bank.Controllers
             if (!ModelState.IsValid || !ok)
             {
                 ModelState.AddModelError(string.Empty, "Something went wrong.");
-                return View("../Home/Search", searchModel);
-            }
+                return View();
+            }       
 
-            var isAFieldFilledIn = _customerSearchService.CheckIfThereAreSearchValuesNameCity(searchModel);
-                       
-            if (isAFieldFilledIn)
-            {
-                var name = searchModel.CustomerNameSearch;
-                var city = searchModel.CustomerCitySearch;
-                var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
+            var name = searchModel.CustomerNameSearch;
+            var city = searchModel.CustomerCitySearch;
+            var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
 
-                var model = new SearchResultsViewModel();
-                _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
+            var model = new SearchResultsViewModel();
+            _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
 
-                return View(model);
-            }
-            else
-            {
-                var resultCustomers = _customersRepository.GetAll();
-                var model = new SearchResultsViewModel();
-                _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
-
-                return View(model);
-            }                                                    
+            return View(model);
+                                                            
         }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ShowCustomerBySearchId(SearchViewModel searchModel)
+        public IActionResult ShowSelectedCustomer(int id)
         {
             bool ok = true;
 
             if (!ModelState.IsValid || !ok)
             {
-                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+                ModelState.AddModelError(string.Empty, "Something went wrong.");
 
-                return View("../Home/Search", searchModel);
-            }           
-
-            var customer = _customersRepository.GetOneByID(searchModel.CustomerIdSearch);
-            var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
-
-            var model = new ShowCustomerDetailsViewModel();
-
-            _viewmodelsServices.CreateCustomerViewModelForShowDetails(model, customer);           
-            _viewmodelsServices.CreateAccountViewModelForShowDetails(model, customerAccounts);      
-            model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
-
-            return View("ShowCustomer", model);
-        }      
-               
-        public IActionResult ShowCustomer(int customerId)
-        {
-            bool ok = true;
-
-            if (!ModelState.IsValid || !ok)
-            {
-                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
-
-                return View("ShowCustomer");
+                return View();
             }
 
-            var customer = _customersRepository.GetOneByID(customerId);
+            var customer = _customersRepository.GetOneByID(id);
             var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
 
             var model = new ShowCustomerDetailsViewModel();
@@ -119,7 +136,7 @@ namespace Bank.Controllers
             model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
             return View(model);
-        }
+        }         
 
         // GET: Customer/Create
         public ActionResult Create()

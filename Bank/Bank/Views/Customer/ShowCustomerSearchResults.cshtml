@@ -6,7 +6,8 @@
             <!-- Start service Area -->
             <section class="service-area pt-100" id="feature">
                 <div class="container">
-                    <h2 class="text-white">Search Results</h2>                    
+                    <h2 class="text-white">Search Results</h2> 
+                    <span @Html.ValidationSummary(false, "", new { @class = "text-white" })></span>
                 </div>
             </section>
         </div>
@@ -40,7 +41,7 @@
                             <td>@customer.CustomerName</td>
                             <td>@customer.CustomerAddress</td>
                             <td>@customer.CustomerCity</td>
-                            <td><a asp-controller="Customer" asp-action="ShowCustomer" asp-route-id="@customer.CustomerId">Customer View</a></td>
+                            <td><a asp-controller="Customer" asp-action="ShowSelectedCustomer" asp-route-id="@customer.CustomerId">Customer View</a></td>
                         </tr>                        
                         }
                         <tr>

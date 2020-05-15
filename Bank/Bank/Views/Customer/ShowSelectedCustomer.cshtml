@@ -1,15 +1,13 @@
 ﻿@model ShowCustomerDetailsViewModel
 
 <section class="generic-banner relative">
-    <div class="container">
-
-       
-
+    <div class="container">      
         <div class="main-wrapper">
             <!-- Start service Area -->
             <section class="service-area pt-100" id="feature">
                 <div class="container">
                     <h2 class="text-white">Customer Details</h2>
+                    <span @Html.ValidationSummary(false, "", new { @class = "text-danger" })></span>
                     <div class="row">
                         <div class="col">
                         </div>
@@ -72,11 +70,11 @@
                         <div class="col">
                             <div class="single-service">
                                 <label>Telephone number</label>
-                                <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>                               
+                                <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="single-service">                           
+                            <div class="single-service">
                                 <label>Email</label>
                                 <p class="text-white">@Model.Emailaddress</p>
                             </div>

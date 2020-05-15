@@ -45,18 +45,7 @@ namespace Bank.Controllers
             model.TotalAmountBalance = allAccounts.Sum(a => a.Balance);
 
             return View(model);
-        }
-
-        public IActionResult Search()
-        {
-            var model = new StatisticsViewModel();
-            var allAccounts = _accountsRepository.GetAll();
-            model.TotalAmountCustomers = _customersRepository.GetAll().Count();
-            model.TotalAmountAccounts = allAccounts.Count();
-            model.TotalAmountBalance = allAccounts.Sum(a => a.Balance);
-
-            return View(model);
-        }
+        }           
 
         public IActionResult Privacy()
         {

@@ -1,0 +1,38 @@
+﻿@model SearchViewModel
+<!-- Start banner Area -->
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="row height align-items-center justify-content-center">
+            <div class="col-lg-10">
+                <div class="generic-banner-content">
+
+                    <h2 class="text-white">Select Customer</h2>
+                    <span @Html.ValidationSummary(false, "", new { @class = "text-danger" })></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="convert-area" id="convert">
+    <div class="container">
+        <div class="convert-wrap">
+            <div class="row justify-content-center align-items-center flex-column pb-30">
+                <h1 class="text-white">Select Customer</h1>
+                <p class="text-white">Fill in the Customer ID below to select the customer</p>
+            </div>
+            <div class="row justify-content-center align-items-start">
+                <form asp-action="SelectCustomer" asp-controller="Customer" method="post">
+                    @*<div class="col-lg-2 cols-img">
+                            <img class="d-block mx-auto" src="img/bitcoin.png" alt="">
+                        </div>*@
+                    <div class="col-lg-12 cols">
+                        <input type="number" min="0" value=" " placeholder="Customer ID" class="form-control mb-20" asp-for="@Model.CustomerIdSearch">
+                        <span style="color:red" asp-validation-for="@Model.CustomerIdSearch"></span>                       
+                        <button type="submit" asp-controller="Customer" asp-action="SelectCustomer" class="primary-btn header-btn text-uppercase mb-10">Select</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

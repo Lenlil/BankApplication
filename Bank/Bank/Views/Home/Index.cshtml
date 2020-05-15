@@ -12,19 +12,52 @@
 
                     <h2 class="text-white">Statistics</h2>
 
-                    <label>Total number of customers</label>
+                    @*<label>Total number of customers</label>
                     <p class="text-white">@Model.TotalAmountCustomers</p>
                     <label>Total number of accounts</label>
                     <p class="text-white">@Model.TotalAmountAccounts</p>
                     <label>Total balance on all accounts</label>
-                    <p class="text-white">@Model.TotalAmountBalance kr</p>
+                    <p class="text-white">@Model.TotalAmountBalance kr</p>*@
 
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- End banner Area -->
 
-<partial name="_SearchView" model="@new SearchViewModel()" />
+<!-- About Generic Start -->
+<div class="main-wrapper">
+    <!-- Start service Area -->
+    <section class="service-area pt-100" id="feature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <h4><span class="lnr lnr-user"></span>Total number of customers</h4>
+                        <p>
+                            @Model.TotalAmountCustomers
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <h4><span class="lnr lnr-license"></span>Total number of accounts</h4>
+                        <p>
+                            @Model.TotalAmountAccounts
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-service">
+                        <h4><span class="lnr lnr-plus-circle"></span>Total balance on all accounts</h4>
+                        <p>
+                            @Model.TotalAmountBalance.ToString("### ### ##0.####"); kr
+                        </p>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </section>
+</div>
+<!-- End service Area -->
