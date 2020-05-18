@@ -67,7 +67,11 @@ namespace Bank.Controllers
             var customers = _customersRepository.GetAll();
 
             if (!string.IsNullOrEmpty(searchString))
+            {
                 customers = _customerSearchService.GetCustomersMatchingSearch(searchString);
+                ModelState.AddModelError(string.Empty, "Please fill in a name or city.");
+            }
+                
 
             var customersIQueryable = _viewmodelsServices.CreateCustomerViewModelsIQueryable(customers);
 

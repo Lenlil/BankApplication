@@ -11,11 +11,13 @@ namespace Bank.Services
     {
         private readonly IAccountsRepository _accountsRepository;
         private readonly IDispositionsRepository _dispositionsRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
 
-        public AccountServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository)
+        public AccountServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository)
         {
             _accountsRepository = accountsRepository;
             _dispositionsRepository = dispositionsRepository;
+            _transactionsRepository = transactionsRepository;
 
         }
         public decimal GetBalanceOnAccount(Accounts account)
@@ -68,6 +70,11 @@ namespace Bank.Services
                                    });
 
             return customerAccountsList;
+        }
+
+        public IQueryable<Transactions> GetTransactionsOnAccount(int accountId)
+        {
+            return _transactionsRepository.GetAll().Where(r => r.AccountId == accountId);
         }
     }
 }

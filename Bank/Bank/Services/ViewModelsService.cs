@@ -107,5 +107,33 @@ namespace Bank.Services
 
             return customerSearchViewModel;
         }
+
+        public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> transactions)
+        {
+            var accountToShow = new ShowAccountDetailsViewModel()                            
+                            {
+                                AccountId = account.AccountId,
+                                Frequency = account.Frequency,
+                                Created = account.Created,
+                                Balance = account.Balance                             
+                            };
+            accountToShow.Transactions = transactions.Select(x =>
+                            new ShowAccountDetailsViewModel.Transaction()
+                            {
+                                TransactionId = x.TransactionId,
+                                Date = x.Date,
+                                Type = x.Type,
+                                Operation = x.Operation,
+                                Amount = x.Amount,
+                                Balance = x.Balance,
+                                Symbol = x.Symbol,
+                                Bank = x.Bank,
+                                Account = x.Account,
+                            });
+
+            accountToShow.Transactions.OrderBy(x => x.Date.ToShortDateString());
+
+            return accountToShow;
+        }
     }
 }

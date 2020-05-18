@@ -1,0 +1,79 @@
+﻿@model ShowAccountDetailsViewModel
+
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="main-wrapper">
+            <!-- Start service Area -->
+            <section class="service-area pt-100" id="feature">
+                <div class="container">
+                    <h2 class="text-white">Account Details</h2>
+                    <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Account ID</label>
+                                <p class="text-white">@Model.AccountId</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="single-service">
+                                <label>Balance</label>
+                                <p class="text-white">@Model.Balance</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>                   
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- About Generic Start -->
+<div class="main-wrapper">
+    <!-- Start service Area -->
+    <section class="service-area pt-100" id="feature">
+        <div class="container">
+
+            <h3>Transactions</h3>
+
+            <div class="row">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Operation</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Notes</th>
+                            <th scope="col">Bank</th>
+                            <th scope="col">Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in Model.Transactions)
+                        {
+                        <tr>
+                            <th scope="row">@transaction.TransactionId</th>
+                                <td>@transaction.Date.ToShortDateString()</td>
+                                <td>@transaction.Type</td>
+                                <td>@transaction.Operation</td>
+                                <td>@transaction.Amount</td>
+                                <td>@transaction.Balance kr</td>
+                                <td>@transaction.Symbol</td>
+                                <td>@transaction.Bank</td>
+                                <td>@transaction.Account</td>                            
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- End service Area -->
