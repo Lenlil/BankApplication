@@ -7,11 +7,12 @@ namespace Bank.ViewModels
 {
     public class ShowAccountDetailsViewModel
     {    
-        public IQueryable<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; set; }
         public int AccountId { get; set; }
         public string Frequency { get; set; }
         public DateTime Created { get; set; }
         public decimal Balance { get; set; }
+        public int NumberVisibleTransactions { get; set; }
 
         public class Transaction 
         {

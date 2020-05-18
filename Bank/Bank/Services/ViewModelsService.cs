@@ -108,16 +108,17 @@ namespace Bank.Services
             return customerSearchViewModel;
         }
 
-        public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> transactions)
+        public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> customerTransactions)
         {
             var accountToShow = new ShowAccountDetailsViewModel()                            
                             {
                                 AccountId = account.AccountId,
                                 Frequency = account.Frequency,
                                 Created = account.Created,
-                                Balance = account.Balance                             
-                            };
-            accountToShow.Transactions = transactions.Select(x =>
+                                Balance = account.Balance,
+                                NumberVisibleTransactions = 20
+                                };
+            var transactions = customerTransactions.Select(x =>
                             new ShowAccountDetailsViewModel.Transaction()
                             {
                                 TransactionId = x.TransactionId,
@@ -131,7 +132,7 @@ namespace Bank.Services
                                 Account = x.Account,
                             });
 
-           accountToShow.Transactions = accountToShow.Transactions.OrderByDescending(x => x.Date);
+           accountToShow.Transactions = transactions.OrderByDescending(x => x.Date).ToList();
 
             return accountToShow;
         }

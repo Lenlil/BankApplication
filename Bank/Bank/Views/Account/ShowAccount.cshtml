@@ -1,5 +1,8 @@
 ﻿@model ShowAccountDetailsViewModel
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"></script>
+
 <section class="generic-banner relative">
     <div class="container">
         <div class="main-wrapper">
@@ -24,7 +27,7 @@
                         </div>
                         <div class="col">
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </section>
         </div>
@@ -56,24 +59,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var transaction in Model.Transactions)
+                        <!-- Data binding nedan?? -->
+                        @for (int i = 0; i < Model.NumberVisibleTransactions; i++)
                         {
                         <tr>
-                            <th scope="row">@transaction.TransactionId</th>
-                            <td>@transaction.Date.ToShortDateString()</td>                            
-                            <td>@transaction.Type</td>
-                            <td>@transaction.Operation</td>
-                            <td>@transaction.Amount</td>
-                            <td>@transaction.Balance kr</td>
-                            <td>@transaction.Symbol</td>
-                            <td>@transaction.Bank</td>
-                            <td>@transaction.Account</td>
+                            <th scope="row">@Model.Transactions[i].TransactionId</th>
+                            <td>@Model.Transactions[i].Date.ToShortDateString()</td>
+                            <td>@Model.Transactions[i].Type</td>
+                            <td>@Model.Transactions[i].Operation</td>
+                            <td>@Model.Transactions[i].Amount</td>
+                            <td>@Model.Transactions[i].Balance kr</td>
+                            <td>@Model.Transactions[i].Symbol</td>
+                            <td>@Model.Transactions[i].Bank</td>
+                            <td>@Model.Transactions[i].Account</td>
                         </tr>
                         }
                     </tbody>
                 </table>
             </div>
+            <label>Number of visible transactions: @Model.NumberVisibleTransactions / @Model.Transactions.Count()</label>
+            <br/>
+            <div class="row justify-content-center align-items-start">
+                <button class="primary-btn text-uppercase mb-10" data-bind="click: load20More">Load more</button>
+            </div>
         </div>
     </section>
 </div>
 <!-- End service Area -->
+<!-- Load More Area -->
+
+
+@section scripts{
+    <script>
+
+    var accountDetailsViewModel = function(data) {
+        ko.mapping.fromJS(data, {}, this);
+
+        this.load20More = function () {
+            var current = parseInt(this.Model.NumberVisibleTransactions());
+            current = current + 20;
+            this.NumberVisibleTransactions(current);
+        }
+    }
+
+    var model = @Html.Raw(Json.Serialize(Model));
+    //var viewModel = ko.mapping.fromJS(model,mapping);
+    var viewModel = new accountDetailsViewModel(model);
+    ko.applyBindings(viewModel);
+    </script>
+}
