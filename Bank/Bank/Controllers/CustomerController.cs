@@ -62,10 +62,18 @@ namespace Bank.Controllers
             return RedirectToAction("ShowSelectedCustomer","Customer", new { id = customerId });
         }
 
-        public IActionResult Search()
+        public IActionResult Search(string searchString, string page, string pageSize)
         {
-            var model = new SearchViewModel();
-            return View(model);
+            var customers = _customersRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(searchString))
+                customers = _customerSearchService.GetCustomersMatchingSearch(searchString);
+
+            var customersIQueryable = _viewmodelsServices.CreateCustomerViewModelsIQueryable(customers);
+
+            var model = _viewmodelsServices.CreateCustomerSearchViewModel(page, pageSize, customersIQueryable);
+
+            return View(model); ;
         }
 
         [HttpPost]
@@ -74,12 +82,12 @@ namespace Bank.Controllers
         {
             bool ok = true;
 
-            if (!ModelState.IsValid || !ok)
+            if (!ModelState.IsValid || !ok || (String.IsNullOrEmpty(model.CustomerNameSearch) && String.IsNullOrEmpty(model.CustomerCitySearch)))
             {
                 ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
                 return View(model);
-            }
+            }      
 
             var isAFieldFilledIn = _customerSearchService.CheckIfThereAreSearchValuesNameCity(model);
 
@@ -89,33 +97,34 @@ namespace Bank.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Please fill in one of the required fields.");
+                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
                 return View(model);
-            }            
+            }
+
         }
         
-        public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
-        {
-            bool ok = true;
+        //public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
+        //{
+        //    bool ok = true;
 
-            if (!ModelState.IsValid || !ok)
-            {
-                ModelState.AddModelError(string.Empty, "Something went wrong.");
-                return View();
-            }       
+        //    if (!ModelState.IsValid || !ok)
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Something went wrong.");
+        //        return View();
+        //    }       
 
-            var name = searchModel.CustomerNameSearch;
-            var city = searchModel.CustomerCitySearch;
-            var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
+        //    var name = searchModel.CustomerNameSearch;
+        //    var city = searchModel.CustomerCitySearch;
+        //    var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
 
-            var model = new SearchResultsViewModel();
-            _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
+        //    var model = new SearchResultsViewModel();
+        //    _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);         
 
-            return View(model);
+        //    return View(model);
                                                             
-        }
-        public IActionResult ShowSelectedCustomer(int id)
+        //}      
+            public IActionResult ShowSelectedCustomer(int id)
         {
             bool ok = true;
 
@@ -136,75 +145,6 @@ namespace Bank.Controllers
             model.TotalAmountOnAccounts = _accountServices.GetBalanceOnAllCustomerAccounts(customer.CustomerId);
 
             return View(model);
-        }         
-
-        // GET: Customer/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Customer/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Customer/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Customer/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Customer/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Customer/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        }              
     }
 }

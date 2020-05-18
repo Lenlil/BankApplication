@@ -18,7 +18,7 @@
 <div class="main-wrapper">
     <!-- Start service Area -->
     <section class="service-area pt-100" id="feature">
-        <div class="container">    
+        <div class="container">
             <label>Customers Matching Search Values</label>
             <div class="row">
                 <table class="table">
@@ -35,14 +35,15 @@
                     <tbody>
                         @foreach (var customer in Model.SearchResultCustomers)
                         {
-                        <tr>
-                            <th scope="row">@customer.CustomerId</th>
-                            <td>@customer.NationalId</td>
-                            <td>@customer.CustomerName</td>
-                            <td>@customer.CustomerAddress</td>
-                            <td>@customer.CustomerCity</td>
-                            <td><a asp-controller="Customer" asp-action="ShowSelectedCustomer" asp-route-id="@customer.CustomerId">Customer View</a></td>
-                        </tr>                        
+                            <tr>
+                                <th scope="row">@customer.CustomerId</th>
+                                <td>@customer.NationalId</td>
+                                <td>@customer.CustomerName</td>
+                                <td>@customer.CustomerAddress</td>
+                                <td>@customer.CustomerCity</td>
+                                <td><a asp-controller="Customer" asp-action="ShowSelectedCustomer" asp-route-id="@customer.CustomerId">Customer View</a></td>
+                            </tr>
+
                         }
                         <tr>
                             <td><h3>@Model.ErrorMessage</h3></td>
@@ -52,5 +53,16 @@
             </div>
         </div>
     </section>
-</div>
-<!-- End service Area -->
+
+    @* PAGING *@
+
+    <partial name="_Pager" model='new PagingViewModel()' />
+    @*@Html.Partial("_PagerBootstrap", Model.PagingViewModel)*@
+    @*<script>
+    function setSort(url, col, o) {
+            var s = updateQueryStringParameter(url, 'sortcolumn', col);
+            s = updateQueryStringParameter(s, 'sortorder', o);
+            return s;
+        }</script>*@
+
+    <!-- End service Area -->

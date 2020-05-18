@@ -199,3 +199,4 @@ C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netc
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Customer\ShowSearchedCustomer.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Customer\ShowSelectedCustomer.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Customer\Search.cshtml.g.cs
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Pager.cshtml.g.cs
