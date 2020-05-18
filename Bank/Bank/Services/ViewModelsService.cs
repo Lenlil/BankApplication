@@ -131,7 +131,7 @@ namespace Bank.Services
                                 Account = x.Account,
                             });
 
-            accountToShow.Transactions.OrderBy(x => x.Date.ToShortDateString());
+           accountToShow.Transactions = accountToShow.Transactions.OrderByDescending(x => x.Date);
 
             return accountToShow;
         }
