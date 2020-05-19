@@ -18,7 +18,7 @@ namespace Bank.ViewModels
         public class TransactionViewModel 
         {
             public int TransactionId { get; set; }         
-            public DateTime Date { get; set; }
+            public string Date { get; set; }
             public string Type { get; set; }
             public string Operation { get; set; }
             public decimal Amount { get; set; }

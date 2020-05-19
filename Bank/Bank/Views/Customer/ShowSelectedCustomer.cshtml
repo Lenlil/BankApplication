@@ -86,7 +86,7 @@
                         <div class="col">
                             <div class="single-service">
                                 <label>Total Balance - All Accounts</label>
-                                <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
+                                <p class="text-white">@Model.TotalAmountOnAccounts SEK</p>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                                 <th scope="row">@account.AccountId</th>
                                 <td>@account.Frequency</td>
                                 <td>@account.Created.ToShortDateString()</td>
-                                <td>@account.Balance</td>
+                                <td>@account.Balance SEK</td>
                                 <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">Account View</a></td>
                             </tr>
                         }

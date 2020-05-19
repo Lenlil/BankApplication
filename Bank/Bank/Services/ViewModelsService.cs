@@ -108,34 +108,34 @@ namespace Bank.Services
             return customerSearchViewModel;
         }
 
-        public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> customerTransactions)
-        {
-            var accountToShow = new ShowAccountDetailsViewModel()                            
-                            {
-                                AccountId = account.AccountId,
-                                Frequency = account.Frequency,
-                                Created = account.Created,
-                                Balance = account.Balance,
-                                //NumberVisibleTransactions = 20
-                                };
-            var transactions = customerTransactions.Select(x =>
-                            new ShowAccountDetailsViewModel.TransactionViewModel()
-                            {
-                                TransactionId = x.TransactionId,
-                                Date = x.Date,
-                                Type = x.Type,
-                                Operation = x.Operation,
-                                Amount = x.Amount,
-                                Balance = x.Balance,
-                                Symbol = x.Symbol,
-                                Bank = x.Bank,
-                                Account = x.Account,
-                            });
+        //public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> customerTransactions)
+        //{
+        //    var accountToShow = new ShowAccountDetailsViewModel()                            
+        //                    {
+        //                        AccountId = account.AccountId,
+        //                        Frequency = account.Frequency,
+        //                        Created = account.Created,
+        //                        Balance = account.Balance,
+        //                        //NumberVisibleTransactions = 20
+        //                        };
+        //    var transactions = customerTransactions.Select(x =>
+        //                    new ShowAccountDetailsViewModel.TransactionViewModel()
+        //                    {
+        //                        TransactionId = x.TransactionId,
+        //                        Date = x.Date,
+        //                        Type = x.Type,
+        //                        Operation = x.Operation,
+        //                        Amount = x.Amount,
+        //                        Balance = x.Balance,
+        //                        Symbol = x.Symbol,
+        //                        Bank = x.Bank,
+        //                        Account = x.Account,
+        //                    });
 
-           accountToShow.Transactions = transactions.Take(20).OrderByDescending(x => x.Date).ToList();
+        //   accountToShow.Transactions = transactions.Take(20).OrderByDescending(x => x.Date).ToList();
 
-            return accountToShow;
-        }
+        //    return accountToShow;
+        //}
 
         public ShowAccountDetailsViewModel CreateAccountsShowAccountDetailsViewModel(Accounts account)
         {

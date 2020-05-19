@@ -87,7 +87,7 @@ namespace Bank.Controllers
             return new ShowAccountDetailsViewModel.TransactionViewModel
             {
                 TransactionId = x.TransactionId,
-                Date = x.Date,
+                Date = x.Date.ToShortDateString(),
                 Type = x.Type,
                 Operation = x.Operation,
                 Amount = x.Amount,
