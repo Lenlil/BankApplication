@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModels
 {
-    public class CreateTransactionViewModel
+    public class AddTransactionViewModel
     {
         [Required(ErrorMessage = "Transaction account must be specified")]        
         public int FromAccountId { get; set; }
@@ -25,16 +25,27 @@ namespace Bank.ViewModels
         public string Operation { get; set; }
 
         [Required(ErrorMessage = "Amount must be specified")]
+        [Range(0, int.MaxValue)]        
         public decimal Amount { get; set; }
 
-        [Required(ErrorMessage = "Balance must be specified")]
+        [Required(ErrorMessage = "The balance cannot go under 0.")]
+        [Range(0, int.MaxValue)]
         public decimal Balance { get; set; }
+        [MaxLength(50)]
         public string Symbol { get; set; }
+        [MaxLength(50)]
         public string Bank { get; set; }
+        [MaxLength(50)]
         public string ToAccount { get; set; }
-
-        public IQueryable<SelectListItem> Operations { get; set; }
+        
         public IQueryable<SelectListItem> Types { get; set; }
+        public IQueryable<SelectListItem> Operations { get; set; }
         public IQueryable<SelectListItem> Symbols { get; set; }
+        public ErrorMessageViewModel ErrorMessageViewModel { get; set; }
+    }
+
+    public class ErrorMessageViewModel
+    {
+        public string ErrorMessage { get; set; }
     }
 }

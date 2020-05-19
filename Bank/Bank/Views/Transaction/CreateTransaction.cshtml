@@ -1,0 +1,97 @@
+﻿@model AddTransactionViewModel
+
+    <section class="generic-banner relative">
+        <div class="container">
+            <div class="main-wrapper">
+                <!-- Start service Area -->
+
+
+                <h2 class="text-white">Create Transaction</h2>
+
+                <form asp-action="CreateTransaction" asp-controller="Transaction" method="post">
+                    @*<div asp-validation-summary="All" style="color: red;"></div>*@
+
+
+                    <div class="form-group col-md-6">
+                        <label for="FromAccountId">From Account</label>
+                        <input class="form-control" id="FromAccountId" asp-for="@Model.FromAccountId" type="number" placeholder="From Account ID" />
+                        <span style="color: red" asp-validation-for="@Model.FromAccountId"></span>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label for="Date">Date</label>
+                        <input class="form-control" id="Date" asp-for="@Model.Date" type="date" placeholder="Date" />
+                        <span style="color:red" asp-validation-for="@Model.Date"></span>
+                    </div>
+
+                    <div class="for-row">
+                        <div class="form-group col-md-6">
+                            <label for="Type">Select Type</label>
+                            <select class="form-control" id="Type" asp-for="@Model.Type" asp-items="@(new SelectList(@Model.Types, "Value", "Text" ))">
+                                @*<option value="">Select Type</option>*@
+                            </select>
+                            <span style="color:red" asp-validation-for="@Model.Type"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Operation">Select Operation</label>
+                            <select class="form-control" id="Operation" asp-for="@Model.Operation" asp-items="@(new SelectList(@Model.Operations, "Value", "Text" ))">
+                                @*<option value="">Select Operation</option>*@
+                            </select>
+                            <span style="color:red" asp-validation-for="@Model.Operation"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="Amount">Amount</label>
+                        <input class="form-control" id="Amount" asp-for="@Model.Amount" placeholder="Amount" />
+                        <span style="color:red" asp-validation-for="@Model.Amount"></span>
+                    </div>
+
+                    @*<div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Suppliers">Select Description</label>
+                            <select class="form-control" id="Symbol" asp-for="@Model.Symbol" asp-items="@(new SelectList(@Model.Symbols, "Value", "Text" ))">
+                                <option value="">Select Description</option>
+                            </select>
+                            <span style="color:red" asp-validation-for="@Model.Symbol"></span>
+                        </div>
+                    </div>*@
+
+                      <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Symbol">Write a description</label>
+                            <input asp-for="@Model.Symbol" type="text" class="form-control" id="Symbol" placeholder="Description">
+                            <span style="color:red" asp-validation-for="@Model.Symbol"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Bank">To Bank</label>
+                            <input asp-for="@Model.Bank" type="text" class="form-control" id="Bank" placeholder="Bank name">
+                            <span style="color:red" asp-validation-for="@Model.Bank"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="ToAccount">To Account</label>
+                            <input asp-for="@Model.ToAccount" type="text" class="form-control" id="ToAccount" placeholder="Account name">
+                            <span style="color:red" asp-validation-for="@Model.ToAccount"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" asp-controller="Transaction" asp-action="CreateTransaction" class="btn btn-danger">Create Transaction</button>
+                    </div>
+
+                </form>
+
+                @Html.Partial("_TransactionError", Model.ErrorMessageViewModel)
+
+            </div>
+        </div>
+    </section>

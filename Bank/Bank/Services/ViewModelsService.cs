@@ -1,5 +1,7 @@
-﻿using Bank.Models;
+﻿using Bank.Interfaces;
+using Bank.Models;
 using Bank.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,25 @@ using System.Threading.Tasks;
 namespace Bank.Services
 {
     public class ViewModelsService
-    {
+    {        
+        private readonly IAccountsRepository _accountsRepository;
+        private readonly ICustomersRepository _customersRepository;
+        private readonly IDispositionsRepository _dispositionsRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
+        private readonly CustomerSearchService _customerSearchService;
+        private readonly AccountServices _accountServices;       
+
+        public ViewModelsService( IAccountsRepository accountRepository,
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices)
+        {            
+            _accountsRepository = accountRepository;
+            _customersRepository = customersRepository;
+            _dispositionsRepository = dispositionsRepository;
+            _transactionsRepository = transactionsRepository;
+            _customerSearchService = searchService;
+            _accountServices = accountServices;           
+        }
+
         public ShowCustomerDetailsViewModel CreateCustomerViewModelForShowDetails(ShowCustomerDetailsViewModel model, Customers customer)
         {          
             model.CustomerId = customer.CustomerId;
@@ -144,11 +164,50 @@ namespace Bank.Services
                 AccountId = account.AccountId,
                 Frequency = account.Frequency,
                 Created = account.Created,
-                Balance = account.Balance,
-                //NumberVisibleTransactions = 20
+                Balance = account.Balance,                
             };    
 
             return accountToShow;
+        }
+
+        public AddTransactionViewModel CreateAddTransactionViewModel()
+        {
+            var allTransactions = _transactionsRepository.GetAll();
+
+            var typesListitems = allTransactions.Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.Type.ToString(),
+                                      Value = x.Type.ToString()
+                                  }).Distinct();
+
+            var operationsListitems = allTransactions.Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.Operation.ToString(),
+                                      Value = x.Operation.ToString()
+                                  }).Distinct();
+
+            //var symbolListitems = allTransactions.Select(x =>
+            //                      new SelectListItem()
+            //                      {
+            //                          Text = x.Symbol.ToString(),
+            //                          Value = x.Symbol.ToString()
+            //                      }).Distinct();
+
+            var model = new AddTransactionViewModel()
+            {
+                Date = DateTime.Now,
+                Types = typesListitems,
+                Operations = operationsListitems,                
+                //Symbols = symbolListitems             
+            };
+            model.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""       
+            };
+
+            return model;
         }
     }
 }

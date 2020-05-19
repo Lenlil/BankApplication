@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Bank.Data;
 using Bank.Interfaces;
 using Bank.Services;
+using Bank.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -36,9 +37,17 @@ namespace Bank.Controllers
             _viewmodelsServices = viewmodelsServices;
         }
 
-        public IActionResult CreateTransaction()
+        public IActionResult CreateTransaction(int id)
         {
-            var model = new CreateTransactionViewModel();
+            var model = _viewmodelsServices.CreateAddTransactionViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateTransaction(AddTransactionViewModel model)
+        {
+            //Kod
             return View(model);
         }
     }
