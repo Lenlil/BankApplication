@@ -79,7 +79,7 @@ namespace Bank.Services
 
         public IQueryable<Transactions> GetFrom(int accountId, int startPos = 0)
         {
-            return GetTransactionsOnAccount(accountId).Skip(startPos).Take(20);
+            return GetTransactionsOnAccount(accountId).OrderByDescending(x => x.Date).Skip(startPos).Take(20);
         }
 
     }
