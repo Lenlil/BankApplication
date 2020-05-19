@@ -116,10 +116,10 @@ namespace Bank.Services
                                 Frequency = account.Frequency,
                                 Created = account.Created,
                                 Balance = account.Balance,
-                                NumberVisibleTransactions = 20
+                                //NumberVisibleTransactions = 20
                                 };
             var transactions = customerTransactions.Select(x =>
-                            new ShowAccountDetailsViewModel.Transaction()
+                            new ShowAccountDetailsViewModel.TransactionViewModel()
                             {
                                 TransactionId = x.TransactionId,
                                 Date = x.Date,
@@ -132,7 +132,21 @@ namespace Bank.Services
                                 Account = x.Account,
                             });
 
-           accountToShow.Transactions = transactions.OrderByDescending(x => x.Date).ToList();
+           accountToShow.Transactions = transactions.Take(20).OrderByDescending(x => x.Date).ToList();
+
+            return accountToShow;
+        }
+
+        public ShowAccountDetailsViewModel CreateAccountsShowAccountDetailsViewModel(Accounts account)
+        {
+            var accountToShow = new ShowAccountDetailsViewModel()
+            {
+                AccountId = account.AccountId,
+                Frequency = account.Frequency,
+                Created = account.Created,
+                Balance = account.Balance,
+                //NumberVisibleTransactions = 20
+            };    
 
             return accountToShow;
         }

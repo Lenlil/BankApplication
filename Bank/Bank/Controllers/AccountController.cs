@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bank.Data;
 using Bank.Interfaces;
+using Bank.Models;
 using Bank.Services;
 using Bank.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,25 @@ namespace Bank.Controllers
             _viewmodelsServices = viewmodelsServices;
         }
 
+        //public IActionResult ShowAccount(int id)
+        //{
+        //    bool ok = true;
+
+        //    if (!ModelState.IsValid || !ok)
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Something went wrong.");
+
+        //        return View();
+        //    }
+
+        //    var account = _accountsRepository.GetOneByID(id);
+        //    var transactionsOnAccount = _accountServices.GetTransactionsOnAccount(id);
+
+        //    var model = _viewmodelsServices.CreateShowAccountDetailsViewModel(account, transactionsOnAccount);      
+
+        //    return View(model);
+        //}
+
         public IActionResult ShowAccount(int id)
         {
             bool ok = true;
@@ -46,16 +66,36 @@ namespace Bank.Controllers
                 ModelState.AddModelError(string.Empty, "Something went wrong.");
 
                 return View();
-            }
+            }            
 
             var account = _accountsRepository.GetOneByID(id);
-            var transactionsOnAccount = _accountServices.GetTransactionsOnAccount(id);
+            //var transactionsOnAccount = _accountServices.GetTransactionsOnAccount(id);
 
-            var model = _viewmodelsServices.CreateShowAccountDetailsViewModel(account, transactionsOnAccount);      
+            var viewModel = _viewmodelsServices.CreateAccountsShowAccountDetailsViewModel(account);
 
-            return View(model);
+
+            viewModel.Transactions = _accountServices.GetFrom(id,0).Select(TransactionToTransactionViewModel).ToList();
+            return View(viewModel);
         }
 
-
+        public IActionResult GetFrom(int accountId, int startPos)
+        {
+            return Json(_accountServices.GetFrom(accountId, startPos).Select(TransactionToTransactionViewModel).ToList());
+        }
+        private ShowAccountDetailsViewModel.TransactionViewModel TransactionToTransactionViewModel(Transactions x)
+        {
+            return new ShowAccountDetailsViewModel.TransactionViewModel
+            {
+                TransactionId = x.TransactionId,
+                Date = x.Date,
+                Type = x.Type,
+                Operation = x.Operation,
+                Amount = x.Amount,
+                Balance = x.Balance,
+                Symbol = x.Symbol,
+                Bank = x.Bank,
+                Account = x.Account,
+            };
+        }
     }
 }

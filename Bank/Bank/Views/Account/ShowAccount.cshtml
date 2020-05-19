@@ -58,27 +58,23 @@
                             <th scope="col">Account</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Data binding nedan?? -->
-                        @for (int i = 0; i < Model.NumberVisibleTransactions; i++)
-                        {
+                    <tbody data-bind="foreach: transactions">
                         <tr>
-                            <th scope="row">@Model.Transactions[i].TransactionId</th>
-                            <td>@Model.Transactions[i].Date.ToShortDateString()</td>
-                            <td>@Model.Transactions[i].Type</td>
-                            <td>@Model.Transactions[i].Operation</td>
-                            <td>@Model.Transactions[i].Amount</td>
-                            <td>@Model.Transactions[i].Balance kr</td>
-                            <td>@Model.Transactions[i].Symbol</td>
-                            <td>@Model.Transactions[i].Bank</td>
-                            <td>@Model.Transactions[i].Account</td>
+                            <th scope="row" data-bind="text: transactionid"></th>
+                            <td data-bind="text: date"></td>
+                            <td data-bind="text: type"></td>
+                            <td data-bind="text: operation"></td>
+                            <td data-bind="text: amount"></td>
+                            <td data-bind="text: balance"> kr</td>
+                            <td data-bind="text: symbol"></td>
+                            <td data-bind="text: bank"></td>
+                            <td data-bind="text: account"></td>
                         </tr>
-                        }
                     </tbody>
                 </table>
             </div>
-            <label>Number of visible transactions: @Model.NumberVisibleTransactions / @Model.Transactions.Count()</label>
-            <br/>
+            @*<label>Number of visible transactions: @Model.NumberVisibleTransactions / @Model.Transactions.Count()</label>
+                <br/>*@
             <div class="row justify-content-center align-items-start">
                 <button class="primary-btn text-uppercase mb-10" data-bind="click: load20More">Load more</button>
             </div>
@@ -92,19 +88,48 @@
 @section scripts{
     <script>
 
-    var accountDetailsViewModel = function(data) {
-        ko.mapping.fromJS(data, {}, this);
+        var transactionViewModel = function (data) {
+                self = this;
+                ko.mapping.fromJS(data, {}, this);
 
-        this.load20More = function () {
-            var current = parseInt(this.Model.NumberVisibleTransactions());
-            current = current + 20;
-            this.NumberVisibleTransactions(current);
-        }
-    }
+            self.skip = ko.observable(0);
+            self.id = ko.observable(@Model.AccountId);
 
-    var model = @Html.Raw(Json.Serialize(Model));
-    //var viewModel = ko.mapping.fromJS(model,mapping);
-    var viewModel = new accountDetailsViewModel(model);
-    ko.applyBindings(viewModel);
+            this.load20More = function () {
+
+                self.skip(self.skip() + 20);
+                $.ajax({
+                    url: "/Account/GetFrom?startPos=" + self.skip() + "?accountId=" + self.id(), success: function (result) {
+                        //result
+                        for (var i = 0; i < result.length; i++) {
+                            self.transactions.push(result[i]);
+                        }
+                    }
+                });
+                }
+            }
+
+            var model = @Html.Raw(Json.Serialize(Model));
+            //var viewModel = ko.mapping.fromJS(model,mapping);
+            var viewModel = new transactionViewModel(model);
+            ko.applyBindings(viewModel);
     </script>
 }
+
+
+
+<!-- Data binding nedan?? -->
+@*@for (int i = 0; i < Model.NumberVisibleTransactions; i++)
+    {
+    <tr>
+        <th scope="row">@Model.Transactions[i].TransactionId</th>
+        <td>@Model.Transactions[i].Date.ToShortDateString()</td>
+        <td>@Model.Transactions[i].Type</td>
+        <td>@Model.Transactions[i].Operation</td>
+        <td>@Model.Transactions[i].Amount</td>
+        <td>@Model.Transactions[i].Balance kr</td>
+        <td>@Model.Transactions[i].Symbol</td>
+        <td>@Model.Transactions[i].Bank</td>
+        <td>@Model.Transactions[i].Account</td>
+    </tr>
+    }*@

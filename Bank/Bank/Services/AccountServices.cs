@@ -76,5 +76,11 @@ namespace Bank.Services
         {
             return _transactionsRepository.GetAll().Where(r => r.AccountId == accountId);
         }
+
+        public IQueryable<Transactions> GetFrom(int accountId, int startPos = 0)
+        {
+            return GetTransactionsOnAccount(accountId).Skip(startPos).Take(20);
+        }
+
     }
 }
