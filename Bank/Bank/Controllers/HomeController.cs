@@ -10,6 +10,7 @@ using Bank.Data;
 using Bank.Interfaces;
 using Bank.ViewModels;
 using Bank.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bank.Controllers
 {
@@ -45,7 +46,13 @@ namespace Bank.Controllers
             model.TotalAmountBalance = allAccounts.Sum(a => a.Balance);
 
             return View(model);
-        }           
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {            
+            return View();
+        }
 
         public IActionResult Privacy()
         {

@@ -39,15 +39,28 @@
     <header id="header">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                @*<div id="logo">
+                <div id="logo">
                         <a href="index.html"><img src="img/logo.png" alt="" title="" /></a>
-                    </div>*@
+                    </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li><a asp-action="Search" asp-controller="Customer">Search</a></li>
-                        <li><a asp-action="SelectCustomer" asp-controller="Customer">Select Customer</a></li>                    
-                    </ul>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li><a asp-action="Search" asp-controller="Customer">Search</a></li>
+
+                            <li><a asp-action="SelectCustomer" asp-controller="Customer">Select Customer</a></li>
+
+                            <li><a asp-action="MakeTransaction" asp-controller="Transaction">New Transaction</a></li>
+
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li> <a asp-controller="Home" asp-action="Admin">Admin</a></li>                                  
+                        }
+                        <partial name="_LoginPartial" />
+                    </ul>                   
+                
                 </nav><!-- #nav-menu-container -->
             </div>
         </div>
