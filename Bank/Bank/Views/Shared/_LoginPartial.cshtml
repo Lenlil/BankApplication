@@ -5,9 +5,9 @@
     @*<ul class="nav-menu">*@
         @if (SignInManager.IsSignedIn(User))
         {
-            <li >
+            @*<li >
                 <a  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User Account</a>
-            </li>            
+            </li>*@            
             <li>
                 <form id="LogoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Identity" })">
                     <a href="#" onclick="document.getElementById('LogoutForm').submit()">Log out</a>
