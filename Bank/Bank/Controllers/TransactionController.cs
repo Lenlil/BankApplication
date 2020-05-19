@@ -2,15 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bank.Data;
+using Bank.Interfaces;
+using Bank.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Bank.Controllers
 {
     public class TransactionController : Controller
     {
-        public IActionResult Index()
+        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext dbContext;
+        private readonly IAccountsRepository _accountsRepository;
+        private readonly ICustomersRepository _customersRepository;
+        private readonly IDispositionsRepository _dispositionsRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
+        private readonly CustomerSearchService _customerSearchService;
+        private readonly AccountServices _accountServices;
+        private readonly ViewModelsService _viewmodelsServices;
+
+        public TransactionController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices, ViewModelsService viewmodelsServices)
         {
-            return View();
+            _logger = logger;
+            this.dbContext = dbContext;
+            _accountsRepository = accountRepository;
+            _customersRepository = customersRepository;
+            _dispositionsRepository = dispositionsRepository;
+            _transactionsRepository = transactionsRepository;
+            _customerSearchService = searchService;
+            _accountServices = accountServices;
+            _viewmodelsServices = viewmodelsServices;
+        }
+
+        public IActionResult CreateTransaction()
+        {
+            var model = new CreateTransactionViewModel();
+            return View(model);
         }
     }
 }
