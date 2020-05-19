@@ -77,7 +77,7 @@ namespace Bank.Controllers
 
             return View(model); ;
         }    
-
+         
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public IActionResult Search(CustomerSearchViewModel model)

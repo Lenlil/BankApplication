@@ -86,7 +86,7 @@
                         <div class="col">
                             <div class="single-service">
                                 <label>Total Balance - All Accounts</label>
-                                <p class="text-white">@Model.TotalAmountOnAccounts SEK</p>
+                                <p class="text-white">@Model.TotalAmountOnAccounts.ToString("### ### ##0.00") SEK</p>
                             </div>
                         </div>
                     </div>
@@ -95,69 +95,6 @@
         </div>
     </div>
 </section>
-
-
-@*<div class="row height align-items-center justify-content-center">
-    <div class="col-lg-10">
-        <div class="generic-banner-content">
-
-            <h2 class="text-white">Customer Details</h2>
-
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-service">
-                        <label>Customer ID</label>
-                        <p class="text-white">@Model.CustomerId</p>
-                        <label>Name</label>
-                        <p class="text-white">@Model.Givenname @Model.Surname</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-service">
-                        <label>Gender</label>
-                        <p class="text-white">@Model.Gender</p>
-                        <label>Address</label>
-                        <p class="text-white">@Model.Streetaddress</p>
-                        <p class="text-white">@Model.Zipcode @Model.City</p>
-                        <p class="text-white">@Model.Country</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-10">
-        <div class="generic-banner-content">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-service">
-                        <label>Birthday</label>
-                        <p class="text-white">@Model.Birthday.Value.ToShortDateString()</p>
-                        <label>National ID</label>
-                        <p class="text-white">@Model.NationalId</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-service">
-                        <label>Telephone number</label>
-                        <p class="text-white">+@Model.Telephonecountrycode @Model.Telephonenumber</p>
-                        <label>Email</label>
-                        <p class="text-white">@Model.Emailaddress</p>
-                    </div>
-                </div>
-            </div>
-
-            <label>Total Balance - All Accounts</label>
-            <p class="text-white">@Model.TotalAmountOnAccounts kr</p>
-
-        </div>
-    </div>
-</div>
-    </div>
-</section>*@
 
 <!-- About Generic Start -->
 <div class="main-wrapper">
@@ -186,7 +123,7 @@
                                 <th scope="row">@account.AccountId</th>
                                 <td>@account.Frequency</td>
                                 <td>@account.Created.ToShortDateString()</td>
-                                <td>@account.Balance SEK</td>
+                                <td>@account.Balance.ToString("### ### ##0.00")</td>
                                 <td><a asp-action="ShowAccount" asp-controller="Account" asp-route-id="@account.AccountId">Account View</a></td>
                             </tr>
                         }
