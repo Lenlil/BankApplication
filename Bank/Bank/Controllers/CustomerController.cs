@@ -68,45 +68,36 @@ namespace Bank.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                customers = _customerSearchService.GetCustomersMatchingSearch(searchString);
-                ModelState.AddModelError(string.Empty, "Please fill in a name or city.");
-            }
-                
+                customers = _customerSearchService.GetCustomersMatchingSearch(searchString);                
+            }                
 
             var customersIQueryable = _viewmodelsServices.CreateCustomerViewModelsIQueryable(customers);
 
             var model = _viewmodelsServices.CreateCustomerSearchViewModel(page, pageSize, customersIQueryable);
 
             return View(model); ;
-        }
+        }    
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Search(SearchViewModel model)
-        {
-            bool ok = true;
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Search(CustomerSearchViewModel model)
+        //{
+        //    bool ok = true;
 
-            if (!ModelState.IsValid || !ok || (String.IsNullOrEmpty(model.CustomerNameSearch) && String.IsNullOrEmpty(model.CustomerCitySearch)))
-            {
-                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+        //    if (!ModelState.IsValid || !ok || (String.IsNullOrEmpty(model.SearchString)))
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
 
-                return View(model);
-            }      
+        //        return View(model);
+        //    }
 
-            var isAFieldFilledIn = _customerSearchService.CheckIfThereAreSearchValuesNameCity(model);
+        //    var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(model.SearchString);
 
-            if (isAFieldFilledIn)
-            {
-                return RedirectToAction("ShowCustomerSearchResults", "Customer", model);
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
+        //    var viewModel = new SearchResultsViewModel();
+        //    _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
 
-                return View(model);
-            }
-
-        }
+        //    return View(model);                                 
+        //}
         
         //public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
         //{
