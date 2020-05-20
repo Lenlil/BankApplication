@@ -28,7 +28,7 @@
 
             <div class="row justify-content-center align-items-start">
 
-                <form asp-action="Deposit" asp-controller="Transaction" method="post">
+                <form asp-action="Withdrawal" asp-controller="Transaction" method="post">
                     <input asp-for="@Model.FromAccountId" type="hidden" />
                     <input asp-for="@Model.OldAccountBalance" type="hidden" />
                     <input asp-for="@Model.Operation" type="hidden" />
@@ -36,7 +36,7 @@
 
                     <div class="row">
                         <div class="col-lg-12 cols ">
-                            <h4>Make a Cash Withrawal</h4>
+                            <h4>Make a Cash Withdrawal</h4>
                             <br />
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                     <br />
 
                     <div class="row justify-content-center align-items-start">
-                        <button type="submit" asp-controller="Transaction" asp-action="Deposit" class="primary-btn default circle text-uppercase mb-30">Create Transaction</button>
+                        <button type="submit" asp-controller="Transaction" asp-action="Withdrawal" class="primary-btn default circle text-uppercase mb-30">Create Transaction</button>
                     </div>
                     <br />
                     <div class="row justify-content-center align-items-start">
