@@ -1,15 +1,126 @@
-﻿
-@{
-    Layout = null;
-}
+﻿@model TransferTransactionViewModel
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TransferOtherBank</title>
-</head>
-<body>
-</body>
-</html>
+<section class="generic-banner relative">
+    <div class="container">
+        <div class="row height align-items-center justify-content-center">
+            <div class="col-lg-10">
+                <div class="generic-banner-content">
+                    <!-- Start service Area -->
+
+                    <div class="row justify-content-center align-items-center flex-column pb-30">
+                        <h1 class="text-white">Create Transaction</h1>
+                        <p class="text-white">Fill in the fields below to make a transfer to a bank account at a different bank</p>
+                    </div>
+
+                    <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="ShowAccount" asp-controller="Account" asp-route-id="@Model.FromAccountId">Back</a></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="main-wrapper">
+    <!-- Start service Area -->
+    <section class="service-area pt-100" id="feature">
+        <div class="container">
+
+            <div class="row justify-content-center align-items-start">
+
+                <form asp-action="TransferOtherBank" asp-controller="Transaction" method="post">
+                    <input asp-for="@Model.FromAccountId" type="hidden" />
+                    <input asp-for="@Model.OldAccountBalance" type="hidden" />
+                    <input asp-for="@Model.Operation" type="hidden" />
+                    <input asp-for="@Model.Type" type="hidden" />
+
+                    <div class="row">
+                        <div class="col-lg-12 cols ">
+                            <h4>Make a Transfer</h4>
+                            <br />
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 cols">
+                            <label for="FromAccountId">Account</label>
+                            <input type="text" class="form-control" id="FromAccountId" asp-for="@Model.FromAccountId" value="@Model.FromAccountId" placeholder="@Model.FromAccountId" disabled />
+                            @*<span style="color: red" asp-validation-for="@Model.FromAccountId"></span>*@
+                        </div>
+
+
+                        <div class="col-lg-6 cols">
+                            <label for="OldAccountBalance">Account Balance</label>
+                            <input type="text" class="form-control" id="OldAccountBalance" asp-for="@Model.OldAccountBalance" value="@Model.OldAccountBalance" placeholder="@Model.OldAccountBalance" disabled />
+                            @*<span style="color: red" asp-validation-for="@Model.OldAccountBalance"></span>*@
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 cols">
+                            <label for="Date">Date</label>
+                            <input class="form-control" id="Date" asp-for="@Model.Date" type="date" placeholder="Date" min="@Model.Date" />
+                            <span style="color:red" asp-validation-for="@Model.Date"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8 cols">
+                            <label for="Amount">Amount</label>
+                            <input class="form-control" id="Amount" asp-for="@Model.Amount" placeholder="Amount" />
+                            <span style="color:red" asp-validation-for="@Model.Amount"></span>
+                        </div>
+                        <div class="col-lg-4 cols">
+                            <label for="Type">Type</label>
+                            <input class="form-control" id="Type" asp-for="@Model.Type" placeholder="@Model.Type" disabled />
+                            <span style="color:red" asp-validation-for="@Model.Type"></span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-lg-12 cols">
+                            <label for="Operation">Operation</label>
+                            <input class="form-control" id="Operation" asp-for="@Model.Operation" placeholder="@Model.Operation" disabled />
+                            <span style="color:red" asp-validation-for="@Model.Operation"></span>
+                        </div>
+
+                        <div class="col-lg-12 cols">
+                            <label for="Symbol">Description</label>
+                            <input asp-for="@Model.Symbol" type="text" class="form-control" id="Symbol" placeholder="Write a description...">
+                            <span style="color:red" asp-validation-for="@Model.Symbol"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 cols">
+                            <label for="Bank">To Bank</label>
+                            <input asp-for="@Model.Bank" type="text" class="form-control" id="Bank">
+                            <span style="color:red" asp-validation-for="@Model.Bank"></span>
+                        </div>
+
+                        <div class="col-lg-6 cols">
+                            <label for="ToAccount">To Account</label>
+                            <input asp-for="@Model.ToAccount" type="text" class="form-control" id="ToAccount">
+                            <span style="color:red" asp-validation-for="@Model.ToAccount"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row justify-content-center align-items-start">
+                        <button type="submit" asp-controller="Transaction" asp-action="TransferOtherBank" class="primary-btn default circle text-uppercase mb-30">Create Transaction</button>
+                    </div>
+                    <br />
+                    <div class="row justify-content-center align-items-start">
+                        <h4 style="color:red;">@Html.ValidationSummary(false, "")</h4>
+                    </div>
+
+                </form>
+            </div>
+
+            @Html.Partial("_TransactionError", Model.ErrorMessageViewModel)
+            <br />
+        </div>
+    </section>
+</div>
+

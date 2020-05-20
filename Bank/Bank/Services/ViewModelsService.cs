@@ -279,5 +279,27 @@ namespace Bank.Services
 
             return model;
         }
+
+        public TransferTransactionViewModel CreateTransferViewModel(int accountId)
+        {
+            var account = _accountsRepository.GetOneByID(accountId);
+            var oldBalance = _accountServices.GetBalanceOnAccount(account);
+
+            var model = new TransferTransactionViewModel()
+            {
+                Date = DateTime.Now,
+                Type = "Debit",
+                Operation = "Remittance to Another Bank",
+                FromAccountId = accountId,
+                OldAccountBalance = oldBalance,
+            };
+
+            model.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
+
+            return model;
+        }
     }
 }
