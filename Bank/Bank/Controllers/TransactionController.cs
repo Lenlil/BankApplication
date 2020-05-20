@@ -54,26 +54,20 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in all the required fields.");
 
-                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
-
-                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);                
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);                         
 
                 return View(viewModel);
             }
             if (model.FromAccountId <= 0)
             {
-                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
-
-                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);              
 
                 viewModel.ErrorMessageViewModel.ErrorMessage = "Enter an Account ID";
 
                 return View(viewModel);
             }
             if (model.Amount <= 0)
-            {
-                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
-
+            {              
                 var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
 
                 viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
@@ -85,9 +79,7 @@ namespace Bank.Controllers
             var oldBalance = model.OldAccountBalance;          
 
             if (model.Type == "Debit" && model.Amount > oldBalance)
-            {
-                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
-
+            {             
                 var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
 
                 viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction. Please change the amount.";

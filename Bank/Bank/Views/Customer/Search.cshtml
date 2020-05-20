@@ -16,7 +16,7 @@
                         <form asp-action="Search" asp-controller="Customer" method="get">
                             <div class="col-lg-12 cols">
                                 <input type="text" placeholder="Search here" class="form-control mb-20" asp-for="SearchString">
-                                <span style="color:red" asp-validation-for="@Model.SearchString"></span>
+                                @*<span style="color:red" asp-validation-for="@Model.SearchString"></span>*@
                                 <button type=submit class="genric-btn default circle text-uppercase mb-30">Search by Name/City</button>
                             </div>
                         </form>

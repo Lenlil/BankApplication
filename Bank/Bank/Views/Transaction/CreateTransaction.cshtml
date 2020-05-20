@@ -11,7 +11,7 @@
 
                     <div class="row justify-content-center align-items-center flex-column pb-30">
                         <h1 class="text-white">Create Transaction</h1>
-                        <p class="text-white">Fill in the fields below to create a new transaction.</p>
+                        <p class="text-white">Fill in the fields below to create a new transaction</p>
                     </div>
 
                 </div>
@@ -32,10 +32,10 @@
 
                     <div class="row">
                         @*<div class="col-lg-6 cols">
-                <label for="FromAccountId">Account</label>
-                <input class="form-control" id="FromAccountId" asp-for="@Model.FromAccountId" type="text" placeholder="Account ID" />
-                <span style="color: red" asp-validation-for="@Model.FromAccountId"></span>
-            </div>*@
+                        <label for="FromAccountId">Account</label>
+                        <input class="form-control" id="FromAccountId" asp-for="@Model.FromAccountId" type="text" placeholder="Account ID" />
+                        <span style="color: red" asp-validation-for="@Model.FromAccountId"></span>
+                    </div>*@
 
                         <div class="col-lg-6 cols">
                             <label for="FromAccountId">Account</label>
@@ -91,14 +91,14 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 cols">
-                            <label for="Bank">Other Bank</label>
+                            <label for="Bank">Target Bank</label>
                             <input asp-for="@Model.Bank" type="text" class="form-control" id="Bank" placeholder="Bank name">
                             <span style="color:red" asp-validation-for="@Model.Bank"></span>
                         </div>
 
                         <div class="col-lg-6 cols">
-                            <label for="ToAccount">Other Account</label>
-                            <input asp-for="@Model.ToAccount" type="text" class="form-control" id="ToAccount" placeholder="Other account ID">
+                            <label for="ToAccount">Target Account</label>
+                            <input asp-for="@Model.ToAccount" type="text" class="form-control" id="ToAccount" placeholder="Target account">
                             <span style="color:red" asp-validation-for="@Model.ToAccount"></span>
                         </div>
                     </div>
@@ -107,17 +107,16 @@
                     <div class="row justify-content-center align-items-start">
                         <button type="submit" asp-controller="Transaction" asp-action="CreateTransaction" class="primary-btn default circle text-uppercase mb-30">Create Transaction</button>
                     </div>
-
-
                     <br />
-                    <span style="font-size:160%; color:red;">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
-                    <br />
+                    <div class="row justify-content-center align-items-start">
+                        <h4 style="color:red;">@Html.ValidationSummary(false, "")</h4>
+                    </div>
 
                 </form>
             </div>
 
             @Html.Partial("_TransactionError", Model.ErrorMessageViewModel)
-
+            <br />
         </div>
     </section>
 </div>
