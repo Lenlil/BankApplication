@@ -17,7 +17,9 @@
                                 </div>*@
                             <div class="col-lg-12 cols">
                                 <input type="number" min="0" value=" " placeholder="Customer ID" class="form-control mb-20" asp-for="@Model.CustomerIdSearch">
+                                <br/>
                                 <span style="color:red" asp-validation-for="@Model.CustomerIdSearch"></span>
+                                <br/>
                                 <button type="submit" asp-controller="Customer" asp-action="SelectCustomer" class="genric-btn default circle text-uppercase mb-30">Select</button>
                             </div>
                         </form>

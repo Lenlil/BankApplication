@@ -204,3 +204,4 @@ C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netc
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Home\Admin.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TransactionError.cshtml.g.cs
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\CreateTransaction.cshtml.g.cs
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\SuccessConfirmation.cshtml.g.cs

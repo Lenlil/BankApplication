@@ -170,7 +170,44 @@ namespace Bank.Services
             return accountToShow;
         }
 
-        public AddTransactionViewModel CreateAddTransactionViewModel()
+        public AddTransactionViewModel CreateAddTransactionViewModel(int accountId)
+        {
+            var allTransactions = _transactionsRepository.GetAll();
+            var account = _accountsRepository.GetOneByID(accountId);
+            var oldBalance = _accountServices.GetBalanceOnAccount(account);
+
+            var typesListitems = allTransactions.Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.Type.ToString(),
+                                      Value = x.Type.ToString()
+                                  }).Distinct();
+
+            var operationsListitems = allTransactions.Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.Operation.ToString(),
+                                      Value = x.Operation.ToString()
+                                  }).Distinct();
+       
+            var model = new AddTransactionViewModel()
+            {
+                Date = DateTime.Now,
+                Types = typesListitems,
+                Operations = operationsListitems, 
+                FromAccountId = accountId, 
+                OldAccountBalance = oldBalance
+            };
+
+            model.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""       
+            };                 
+
+            return model;
+        }
+
+        public AddTransactionViewModel AddSelectItemsListToTransactionViewModel(AddTransactionViewModel model)
         {
             var allTransactions = _transactionsRepository.GetAll();
 
@@ -188,25 +225,14 @@ namespace Bank.Services
                                       Value = x.Operation.ToString()
                                   }).Distinct();
 
-            //var symbolListitems = allTransactions.Select(x =>
-            //                      new SelectListItem()
-            //                      {
-            //                          Text = x.Symbol.ToString(),
-            //                          Value = x.Symbol.ToString()
-            //                      }).Distinct();
+            model.Types = typesListitems;
+            model.Operations = operationsListitems;
 
-            var model = new AddTransactionViewModel()
-            {
-                Date = DateTime.Now,
-                Types = typesListitems,
-                Operations = operationsListitems,                
-                //Symbols = symbolListitems             
-            };
             model.ErrorMessageViewModel = new ErrorMessageViewModel()
             {
-                ErrorMessage = ""       
-            };
-
+                ErrorMessage = ""
+            };                     
+          
             return model;
         }
     }

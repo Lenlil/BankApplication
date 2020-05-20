@@ -11,6 +11,7 @@ namespace Bank.ViewModels
     {
         [Required(ErrorMessage = "Transaction account must be specified")]        
         public int FromAccountId { get; set; }
+        public decimal OldAccountBalance { get; set; }
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Transaction date must be specified")]
@@ -29,7 +30,7 @@ namespace Bank.ViewModels
         public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "The balance cannot go under 0.")]
-        [Range(0, int.MaxValue)]
+        [Range(0, int.MaxValue, ErrorMessage = "The amount cannot be negative.")]
         public decimal Balance { get; set; }
         [MaxLength(50)]
         public string Symbol { get; set; }

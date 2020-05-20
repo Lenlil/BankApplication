@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bank.Data;
 using Bank.Interfaces;
+using Bank.Models;
 using Bank.Services;
 using Bank.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace Bank.Controllers
 
         public IActionResult CreateTransaction(int id)
         {
-            var model = _viewmodelsServices.CreateAddTransactionViewModel();
+            var model = _viewmodelsServices.CreateAddTransactionViewModel(id);
             return View(model);
         }
 
@@ -47,8 +48,103 @@ namespace Bank.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateTransaction(AddTransactionViewModel model)
         {
-            //Kod
-            return View(model);
+            bool ok = true;
+         
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in all the required fields.");
+
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
+
+                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);                
+
+                return View(viewModel);
+            }
+            if (model.FromAccountId <= 0)
+            {
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
+
+                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "Enter an Account ID";
+
+                return View(viewModel);
+            }
+            if (model.Amount <= 0)
+            {
+                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
+
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+
+                return View(viewModel);
+            }
+
+            var account = _accountsRepository.GetOneByID(model.FromAccountId);
+            var oldBalance = model.OldAccountBalance;          
+
+            if (model.Type == "Debit" && model.Amount > oldBalance)
+            {
+                //_viewmodelsServices.AddSelectItemsListToTransactionViewModel(model);
+
+                var viewModel = _viewmodelsServices.CreateAddTransactionViewModel(model.FromAccountId);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction. Please change the amount.";
+
+                return View(viewModel);
+            }
+
+            //Insättning
+            else if (model.Type == "Credit")
+            {
+                var newBalance = oldBalance + model.Amount;
+
+                var newTransaction = new Transactions()
+                {
+                    AccountId = model.FromAccountId,
+                    Date = model.Date,
+                    Type = model.Type,
+                    Operation = model.Operation,
+                    Amount = model.Amount,
+                    Balance = newBalance,
+                    Symbol = model.Symbol,
+                    Bank = model.Bank,
+                    Account = model.ToAccount,
+                };
+
+                _transactionsRepository.Create(newTransaction);
+
+                account.Balance = newBalance;
+                _accountsRepository.Update(account);
+
+                return View("SuccessConfirmation");
+            }
+            //Uttag  
+            else
+            {
+                var newBalance = oldBalance - model.Amount;
+
+                var newTransaction = new Transactions()
+                {
+                    AccountId = model.FromAccountId,
+                    Date = model.Date,
+                    Type = model.Type,
+                    Operation = model.Operation,
+                    Amount = -model.Amount,
+                    Balance = newBalance,
+                    Symbol = model.Symbol,
+                    Bank = model.Bank,
+                    Account = model.ToAccount,
+                };
+
+                _transactionsRepository.Create(newTransaction);
+
+                account.Balance = newBalance;
+                _accountsRepository.Update(account);
+
+                return View("SuccessConfirmation");
+            }                                                                             
         }
     }
 }
