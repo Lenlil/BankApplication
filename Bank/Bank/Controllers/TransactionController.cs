@@ -37,6 +37,69 @@ namespace Bank.Controllers
             _accountServices = accountServices;
             _viewmodelsServices = viewmodelsServices;
         }
+        public IActionResult Deposit(int id)
+        {
+            var model = _viewmodelsServices.CreateDepositViewModel(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Deposit(AddTransactionViewModel model)
+        {
+            bool ok = true;
+
+            if (!ModelState.IsValid || !ok)
+            {
+                ModelState.AddModelError(string.Empty, "Please fill in all the required fields.");
+
+                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+
+                return View(viewModel);
+            }           
+            if (model.Amount <= 0)
+            {
+                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+
+                return View(viewModel);
+            }
+            if ((model.Date < DateTime.Now) && (model.Date.Date != DateTime.Now.Date))
+            {
+                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+
+                return View(viewModel);
+            }
+
+            var account = _accountsRepository.GetOneByID(model.FromAccountId);
+            var oldBalance = model.OldAccountBalance;                      
+          
+            var newBalance = oldBalance + model.Amount;
+
+            var newTransaction = new Transactions()
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = model.Amount,
+                Balance = newBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccount,
+            };
+
+            _transactionsRepository.Create(newTransaction);
+
+            account.Balance = newBalance;
+            _accountsRepository.Update(account);
+
+            return View("SuccessConfirmation");          
+            
+        }
 
         public IActionResult CreateTransaction(int id)
         {

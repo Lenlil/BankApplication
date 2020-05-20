@@ -15,13 +15,13 @@
                         </div>
                         <div class="col">
                             <div class="single-service">
-                                <label>Account ID</label>
+                                <label class="text-white font-weight-bold">Account ID</label>
                                 <p class="text-white">@Model.AccountId</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="single-service">
-                                <label>Balance</label>
+                                <label class="text-white font-weight-bold">Balance</label>
                                 <p class="text-white">@Model.Balance.ToString("### ### ##0.00") SEK</p>
                             </div>
                         </div>
@@ -29,10 +29,35 @@
                         </div>
                     </div>
 
-                    <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="CreateTransaction" asp-controller="Transaction" asp-route-id="@Model.AccountId">Create Transaction on Account</a></button>
-                    @*<button class="genric-btn default circle text-uppercase mb-30" onclick="location.href='@Url.Action("CreateTransaction", "Transaction", new { id = Model.AccountId })">Create Transaction</button>*@
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="text-white">Create a Transaction</h6>
+                        </div>                        
+                    </div>
 
-                </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="Withdrawal" asp-controller="Transaction" asp-route-id="@Model.AccountId">Withdrawal</a></button>
+                        </div>
+                        <div class="col">
+                            <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="Deposit" asp-controller="Transaction" asp-route-id="@Model.AccountId">Deposit</a></button>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="TransferThisBank" asp-controller="Transaction" asp-route-id="@Model.AccountId">Transfer Within Bank</a></button>
+                        </div>
+                        <div class="col">
+                            <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="TransferOtherBank" asp-controller="Transaction" asp-route-id="@Model.AccountId">Transfer To Other Bank</a></button>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+
+
+                    </div>
             </section>
         </div>
     </div>

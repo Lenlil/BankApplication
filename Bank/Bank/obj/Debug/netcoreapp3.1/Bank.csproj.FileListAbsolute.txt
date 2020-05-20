@@ -206,3 +206,6 @@ C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netc
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Bank.dll
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Bank.pdb
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Bank.genruntimeconfig.cache
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\TransferOtherBank.cshtml.g.cs
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\TransferThisBank.cshtml.g.cs
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\Bank\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\Withdrawal.cshtml.g.cs
