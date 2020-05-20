@@ -54,13 +54,13 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in all the required fields.");
 
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+                var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
 
                 return View(viewModel);
             }
             if (model.Amount <= 0)
             {
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+                var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
 
                 viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
 
@@ -68,7 +68,7 @@ namespace Bank.Controllers
             }
             if ((model.Date < DateTime.Now) && (model.Date.Date != DateTime.Now.Date))
             {
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+                var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
 
                 viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
 
