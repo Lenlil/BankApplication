@@ -257,5 +257,27 @@ namespace Bank.Services
 
             return model;
         }
+
+        public AddTransactionViewModel CreateWithdrawalViewModel(int accountId)
+        {
+            var account = _accountsRepository.GetOneByID(accountId);
+            var oldBalance = _accountServices.GetBalanceOnAccount(account);
+
+            var model = new AddTransactionViewModel()
+            {
+                Date = DateTime.Now,
+                Type = "Debit",
+                Operation = "Withdrawal in Cash",
+                FromAccountId = accountId,
+                OldAccountBalance = oldBalance,
+            };
+
+            model.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
+
+            return model;
+        }
     }
 }
