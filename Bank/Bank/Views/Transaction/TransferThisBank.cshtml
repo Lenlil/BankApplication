@@ -13,7 +13,7 @@
                         <p class="text-white">Fill in the fields below to make a transfer to another bank account in this bank</p>
                     </div>
 
-                    <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="ShowAccount" asp-controller="Account" asp-route-id="@Model.FromAccountId">Back</a></button>
+                    <button class="genric-btn default circle text-uppercase mb-30"><a style="color:black;" asp-action="ShowAccount" asp-controller="Account" asp-route-id="@Model.FromAccountId">Back to Account</a></button>
 
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     <div class="row">
                         <div class="col-lg-6 cols">
                             <label for="Bank">To Bank</label>
-                            <input asp-for="@Model.Bank" type="number" class="form-control" id="Bank" value="This Bank" placeholder="This Bank" disabled>
+                            <input asp-for="@Model.Bank" type="number" class="form-control" id="Bank" value="This Bank" placeholder="Bitcoin Bank" disabled>
                             <span style="color:red" asp-validation-for="@Model.Bank"></span>
                         </div>
 

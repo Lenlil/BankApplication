@@ -313,7 +313,7 @@ namespace Bank.Services
                 Operation = "Remittance to Another Account",
                 FromAccountId = accountId,
                 OldAccountBalance = oldBalance,
-                Bank = "This Bank"
+                Bank = "Bitcoin Bank"
             };
 
             model.ErrorMessageViewModel = new ErrorMessageViewModel()

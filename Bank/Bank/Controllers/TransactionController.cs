@@ -23,9 +23,10 @@ namespace Bank.Controllers
         private readonly CustomerSearchService _customerSearchService;
         private readonly AccountServices _accountServices;
         private readonly ViewModelsService _viewmodelsServices;
+        private readonly TransactionServices _transactionServices;
 
         public TransactionController(ILogger<HomeController> logger, ApplicationDbContext dbContext, IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices, ViewModelsService viewmodelsServices)
+            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices, ViewModelsService viewmodelsServices, TransactionServices transactionServices)
         {
             _logger = logger;
             this.dbContext = dbContext;
@@ -36,6 +37,7 @@ namespace Bank.Controllers
             _customerSearchService = searchService;
             _accountServices = accountServices;
             _viewmodelsServices = viewmodelsServices;
+            _transactionServices = transactionServices;
         }
 
         public IActionResult TransferThisBank(int id)
@@ -82,74 +84,75 @@ namespace Bank.Controllers
 
                 return View(viewModel);
             }
-            try
+            
+            var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
+            
+            if (targetAccount == null)
             {
-                var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
-
-                var account = _accountsRepository.GetOneByID(model.FromAccountId);
-                var oldBalance = model.OldAccountBalance;
-
-                if (model.Amount > oldBalance)
-                {
-                    var viewModel = _viewmodelsServices.CreateTransferThisBankTransactionViewModel(model.FromAccountId);
-
-                    viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
-
-                    return View(viewModel);
-                }
-
-                var newBalance = oldBalance - model.Amount;
-
-                var newTransaction = new Transactions()
-                {
-                    AccountId = model.FromAccountId,
-                    Date = model.Date,
-                    Type = model.Type,
-                    Operation = model.Operation,
-                    Amount = -model.Amount,
-                    Balance = newBalance,
-                    Symbol = model.Symbol,
-                    Bank = model.Bank,
-                    Account = model.ToAccountId.ToString(),
-                };
-
-                _transactionsRepository.Create(newTransaction);
-
-                account.Balance = newBalance;
-                _accountsRepository.Update(account);
-
-                //var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
-                var oldTargetBalance = _accountServices.GetBalanceOnAccount(targetAccount);
-                var newTargetBalance = oldTargetBalance + model.Amount;
-
-                var newTargetTransaction = new Transactions()
-                {
-                    AccountId = model.ToAccountId,
-                    Date = model.Date,
-                    Type = "Credit",
-                    Operation = "Collection from Another Account",
-                    Amount = model.Amount,
-                    Balance = newTargetBalance,
-                    Symbol = model.Symbol,
-                    Bank = model.Bank,
-                    Account = model.FromAccountId.ToString(),
-                };
-
-                _transactionsRepository.Create(newTargetTransaction);
-
-                targetAccount.Balance = newTargetBalance;
-                _accountsRepository.Update(targetAccount);
-
-                return View("SuccessConfirmation");
-            }
-            catch 
-            {                
                 var viewModel = _viewmodelsServices.CreateTransferThisBankTransactionViewModel(model.FromAccountId);
 
-                viewModel.ErrorMessageViewModel.ErrorMessage = "Enter the Account ID you want to transfer to.";
+                viewModel.ErrorMessageViewModel.ErrorMessage = "No such account esixts. Enter the Account ID you want to transfer to.";
 
-                return View(viewModel);               
-            }          
+                return View(viewModel);
+            }
+
+            var account = _accountsRepository.GetOneByID(model.FromAccountId);
+            var oldBalance = model.OldAccountBalance;
+
+            if (model.Amount > oldBalance)
+            {
+                var viewModel = _viewmodelsServices.CreateTransferThisBankTransactionViewModel(model.FromAccountId);
+
+                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
+
+                return View(viewModel);
+            }
+
+            var newBalance = oldBalance - model.Amount;
+
+            var newTransaction = new Transactions()
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = -model.Amount,
+                Balance = newBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccountId.ToString(),
+            };
+
+            _transactionsRepository.Create(newTransaction);
+
+            account.Balance = newBalance;
+            _accountsRepository.Update(account);
+
+            //var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
+            var oldTargetBalance = _accountServices.GetBalanceOnAccount(targetAccount);
+            var newTargetBalance = oldTargetBalance + model.Amount;
+
+            var newTargetTransaction = new Transactions()
+            {
+                AccountId = model.ToAccountId,
+                Date = model.Date,
+                Type = "Credit",
+                Operation = "Collection from Another Account",
+                Amount = model.Amount,
+                Balance = newTargetBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.FromAccountId.ToString(),
+            };
+
+            _transactionsRepository.Create(newTargetTransaction);
+
+            targetAccount.Balance = newTargetBalance;
+            _accountsRepository.Update(targetAccount);
+
+            return View("SuccessConfirmation");
+            
+                
         }
 
         public IActionResult TransferOtherBank(int id)
