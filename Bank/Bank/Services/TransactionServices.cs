@@ -1,4 +1,5 @@
 ﻿using Bank.Interfaces;
+using Bank.Models;
 using Bank.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,65 @@ namespace Bank.Services
         private readonly IDispositionsRepository _dispositionsRepository;
         private readonly ITransactionsRepository _transactionsRepository;
         private readonly ViewModelsService _viewmodelsServices;
+        private readonly AccountServices _accountServices;
 
-        public TransactionServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, ViewModelsService viewmodelsServices)
+        public TransactionServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, ViewModelsService viewmodelsServices, AccountServices accountServices)
         {
             _accountsRepository = accountsRepository;
             _dispositionsRepository = dispositionsRepository;
             _transactionsRepository = transactionsRepository;
             _viewmodelsServices = viewmodelsServices;
+            _accountServices = accountServices;
+        }
 
+        public void CreateTransferThisBankFromAccountTransaction(TransferThisBankTransactionViewModel model)
+        {
+            var account = _accountsRepository.GetOneByID(model.FromAccountId);
+            var oldBalance = model.OldAccountBalance;
+            var newBalance = oldBalance - model.Amount;
+
+            var newTransaction = new Transactions()
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = -model.Amount,
+                Balance = newBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccountId.ToString(),
+            };
+
+            _transactionsRepository.Create(newTransaction);
+
+            account.Balance = newBalance;
+            _accountsRepository.Update(account);
+        }
+
+        public void CreateTransferThisBankToAccountTransaction(TransferThisBankTransactionViewModel model)
+        {
+            var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
+            var oldTargetBalance = _accountServices.GetBalanceOnAccount(targetAccount);
+            var newTargetBalance = oldTargetBalance + model.Amount;
+
+            var newTargetTransaction = new Transactions()
+            {
+                AccountId = model.ToAccountId,
+                Date = model.Date,
+                Type = "Credit",
+                Operation = "Collection from Another Account",
+                Amount = model.Amount,
+                Balance = newTargetBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.FromAccountId.ToString(),
+            };
+
+            _transactionsRepository.Create(newTargetTransaction);
+
+            targetAccount.Balance = newTargetBalance;
+            _accountsRepository.Update(targetAccount);
         }
 
         public TransferThisBankTransactionViewModel CheckModelIsOkAndReturnViewmodel(TransferThisBankTransactionViewModel model)

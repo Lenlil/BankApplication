@@ -66,56 +66,12 @@ namespace Bank.Controllers
             if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
             {                         
                 return View(viewModel);
-            }                                        
+            }
 
-            var account = _accountsRepository.GetOneByID(model.FromAccountId);
-            var oldBalance = model.OldAccountBalance;
-
-            var newBalance = oldBalance - model.Amount;
-
-            var newTransaction = new Transactions()
-            {
-                AccountId = model.FromAccountId,
-                Date = model.Date,
-                Type = model.Type,
-                Operation = model.Operation,
-                Amount = -model.Amount,
-                Balance = newBalance,
-                Symbol = model.Symbol,
-                Bank = model.Bank,
-                Account = model.ToAccountId.ToString(),
-            };
-
-            _transactionsRepository.Create(newTransaction);
-
-            account.Balance = newBalance;
-            _accountsRepository.Update(account);
-
-            var targetAccount = _accountsRepository.GetOneByID(model.ToAccountId);
-            var oldTargetBalance = _accountServices.GetBalanceOnAccount(targetAccount);
-            var newTargetBalance = oldTargetBalance + model.Amount;
-
-            var newTargetTransaction = new Transactions()
-            {
-                AccountId = model.ToAccountId,
-                Date = model.Date,
-                Type = "Credit",
-                Operation = "Collection from Another Account",
-                Amount = model.Amount,
-                Balance = newTargetBalance,
-                Symbol = model.Symbol,
-                Bank = model.Bank,
-                Account = model.FromAccountId.ToString(),
-            };
-
-            _transactionsRepository.Create(newTargetTransaction);
-
-            targetAccount.Balance = newTargetBalance;
-            _accountsRepository.Update(targetAccount);
-
-            return View("SuccessConfirmation");
-            
-                
+            _transactionServices.CreateTransferThisBankFromAccountTransaction(model);
+            _transactionServices.CreateTransferThisBankToAccountTransaction(model);
+                             
+            return View("SuccessConfirmation");                          
         }
 
         public IActionResult TransferOtherBank(int id)
