@@ -75,7 +75,32 @@ namespace Bank.Services
             _accountsRepository.Update(targetAccount);
         }
 
-        public TransferThisBankTransactionViewModel CheckModelIsOkAndReturnViewmodel(TransferThisBankTransactionViewModel model)
+        public void CreateTransferToOtherBankTransaction (TransferTransactionViewModel model)
+        {
+            var account = _accountsRepository.GetOneByID(model.FromAccountId);
+            var oldBalance = model.OldAccountBalance;
+            var newBalance = oldBalance - model.Amount;
+
+            var newTransaction = new Transactions()
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = -model.Amount,
+                Balance = newBalance,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccount,
+            };
+
+            _transactionsRepository.Create(newTransaction);
+
+            account.Balance = newBalance;
+            _accountsRepository.Update(account);
+        }
+
+        public TransferThisBankTransactionViewModel CheckTransferThisBankModelIsOkAndReturnViewmodel(TransferThisBankTransactionViewModel model)
         {
             var viewModel = _viewmodelsServices.CreateTransferThisBankTransactionViewModel(model.FromAccountId);
 
@@ -109,6 +134,34 @@ namespace Bank.Services
 
             if (!IsBalanceEnough(model.Amount, model.OldAccountBalance))
             {               
+                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
+
+                return viewModel;
+            }
+
+            return viewModel;
+        }
+
+        public TransferTransactionViewModel CheckTransferOtherBankModelIsOkAndReturnViewmodel(TransferTransactionViewModel model)
+        {
+            var viewModel = _viewmodelsServices.CreateTransferViewModel(model.FromAccountId);
+
+            if (!IsAmountOk(model.Amount))
+            {
+                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+
+                return viewModel;
+            }
+
+            if (!IsDateOk(model.Date))
+            {
+                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+
+                return viewModel;
+            }
+
+            if (!IsBalanceEnough(model.Amount, model.OldAccountBalance))
+            {
                 viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
 
                 return viewModel;
