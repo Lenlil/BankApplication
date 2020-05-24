@@ -57,7 +57,16 @@ namespace Bank.Controllers
                 return View(model);
             }
 
-            var customerId = model.CustomerIdSearch;        
+            var customerId = model.CustomerIdSearch;
+
+            var customer = _customersRepository.GetOneByID(customerId);
+
+            if (customer == null)
+            {
+                ModelState.AddModelError(string.Empty, "The customer doesn't exist.");
+
+                return View(model);
+            }
 
             return RedirectToAction("ShowSelectedCustomer","Customer", new { id = customerId });
         }
@@ -78,47 +87,6 @@ namespace Bank.Controllers
             return View(model); ;
         }    
          
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Search(CustomerSearchViewModel model)
-        //{
-        //    bool ok = true;
-
-        //    if (!ModelState.IsValid || !ok || (String.IsNullOrEmpty(model.SearchString)))
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Please fill in the required fields.");
-
-        //        return View(model);
-        //    }
-
-        //    var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(model.SearchString);
-
-        //    var viewModel = new SearchResultsViewModel();
-        //    _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);
-
-        //    return View(model);                                 
-        //}
-        
-        //public IActionResult ShowCustomerSearchResults(SearchViewModel searchModel)
-        //{
-        //    bool ok = true;
-
-        //    if (!ModelState.IsValid || !ok)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Something went wrong.");
-        //        return View();
-        //    }       
-
-        //    var name = searchModel.CustomerNameSearch;
-        //    var city = searchModel.CustomerCitySearch;
-        //    var resultCustomers = _customerSearchService.GetCustomersMatchingSearch(name, city);
-
-        //    var model = new SearchResultsViewModel();
-        //    _viewmodelsServices.CreateSearchResultsViewModel(model, resultCustomers);         
-
-        //    return View(model);
-                                                            
-        //}      
             public IActionResult ShowSelectedCustomer(int id)
         {
             bool ok = true;
@@ -131,6 +99,7 @@ namespace Bank.Controllers
             }
 
             var customer = _customersRepository.GetOneByID(id);
+            
             var customerAccounts = _accountServices.GetAccountsOfCustomer(customer.CustomerId);
 
             var model = new ShowCustomerDetailsViewModel();

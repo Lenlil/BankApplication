@@ -38,25 +38,6 @@ namespace Bank.Controllers
             _viewmodelsServices = viewmodelsServices;
         }
 
-        //public IActionResult ShowAccount(int id)
-        //{
-        //    bool ok = true;
-
-        //    if (!ModelState.IsValid || !ok)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Something went wrong.");
-
-        //        return View();
-        //    }
-
-        //    var account = _accountsRepository.GetOneByID(id);
-        //    var transactionsOnAccount = _accountServices.GetTransactionsOnAccount(id);
-
-        //    var model = _viewmodelsServices.CreateShowAccountDetailsViewModel(account, transactionsOnAccount);      
-
-        //    return View(model);
-        //}
-
         public IActionResult ShowAccount(int id)
         {
             bool ok = true;

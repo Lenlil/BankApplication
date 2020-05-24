@@ -78,25 +78,6 @@ namespace Bank.Services
             return list;
         }
 
-        //public SearchResultsViewModel CreateSearchResultsViewModel(SearchResultsViewModel model, IQueryable<Customers> customers)
-        //{
-        //    if (customers.Count() == 0)
-        //    {
-        //        model.ErrorMessage = "No Results Found.";
-        //    }
-
-        //    model.SearchResultCustomers = customers.Select(x =>
-        //                    new SearchResultsViewModel.SearchResultsCustomer()
-        //                    {
-        //                        CustomerId = x.CustomerId,
-        //                        NationalId = x.NationalId,
-        //                        CustomerName = x.Givenname + " " + x.Surname,
-        //                        CustomerAddress = x.Streetaddress,
-        //                        CustomerCity = x.City
-        //                    });            
-
-        //    return model;
-        //}
 
         public CustomerSearchViewModel CreateCustomerSearchViewModel(string page, string pageSize, IQueryable<CustomerViewModel> customers)
         {
@@ -126,36 +107,7 @@ namespace Bank.Services
             customerSearchViewModel.SearchResultCustomers = customers;
 
             return customerSearchViewModel;
-        }
-
-        //public ShowAccountDetailsViewModel CreateShowAccountDetailsViewModel(Accounts account, IQueryable<Transactions> customerTransactions)
-        //{
-        //    var accountToShow = new ShowAccountDetailsViewModel()                            
-        //                    {
-        //                        AccountId = account.AccountId,
-        //                        Frequency = account.Frequency,
-        //                        Created = account.Created,
-        //                        Balance = account.Balance,
-        //                        //NumberVisibleTransactions = 20
-        //                        };
-        //    var transactions = customerTransactions.Select(x =>
-        //                    new ShowAccountDetailsViewModel.TransactionViewModel()
-        //                    {
-        //                        TransactionId = x.TransactionId,
-        //                        Date = x.Date,
-        //                        Type = x.Type,
-        //                        Operation = x.Operation,
-        //                        Amount = x.Amount,
-        //                        Balance = x.Balance,
-        //                        Symbol = x.Symbol,
-        //                        Bank = x.Bank,
-        //                        Account = x.Account,
-        //                    });
-
-        //   accountToShow.Transactions = transactions.Take(20).OrderByDescending(x => x.Date).ToList();
-
-        //    return accountToShow;
-        //}
+        }     
 
         public ShowAccountDetailsViewModel CreateAccountsShowAccountDetailsViewModel(Accounts account)
         {
@@ -168,73 +120,7 @@ namespace Bank.Services
             };    
 
             return accountToShow;
-        }
-
-        public TransactionViewModel CreateAddTransactionViewModel(int accountId)
-        {
-            var allTransactions = _transactionsRepository.GetAll();
-            var account = _accountsRepository.GetOneByID(accountId);
-            var oldBalance = _accountServices.GetBalanceOnAccount(account);
-
-            var typesListitems = allTransactions.Select(x =>
-                                  new SelectListItem()
-                                  {
-                                      Text = x.Type.ToString(),
-                                      Value = x.Type.ToString()
-                                  }).Distinct();
-
-            var operationsListitems = allTransactions.Select(x =>
-                                  new SelectListItem()
-                                  {
-                                      Text = x.Operation.ToString(),
-                                      Value = x.Operation.ToString()
-                                  }).Distinct();
-       
-            var model = new TransactionViewModel()
-            {
-                Date = DateTime.Now,
-                Types = typesListitems,
-                Operations = operationsListitems, 
-                FromAccountId = accountId, 
-                OldAccountBalance = oldBalance
-            };
-
-            model.ErrorMessageViewModel = new ErrorMessageViewModel()
-            {
-                ErrorMessage = ""       
-            };                 
-
-            return model;
-        }
-
-        public TransactionViewModel AddSelectItemsListToTransactionViewModel(TransactionViewModel model)
-        {
-            var allTransactions = _transactionsRepository.GetAll();
-
-            var typesListitems = allTransactions.Select(x =>
-                                  new SelectListItem()
-                                  {
-                                      Text = x.Type.ToString(),
-                                      Value = x.Type.ToString()
-                                  }).Distinct();
-
-            var operationsListitems = allTransactions.Select(x =>
-                                  new SelectListItem()
-                                  {
-                                      Text = x.Operation.ToString(),
-                                      Value = x.Operation.ToString()
-                                  }).Distinct();
-
-            model.Types = typesListitems;
-            model.Operations = operationsListitems;
-
-            model.ErrorMessageViewModel = new ErrorMessageViewModel()
-            {
-                ErrorMessage = ""
-            };                     
-          
-            return model;
-        }
+        }      
 
         public TransactionViewModel CreateDepositViewModel(int accountId)
         {            
