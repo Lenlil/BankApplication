@@ -129,7 +129,7 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
-            var viewModel = _transactionServices.CheckTransactionModelIsOkAndReturnViewmodel(model);
+            var viewModel = _transactionServices.CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(model);
 
             if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
             {
@@ -157,52 +157,21 @@ namespace Bank.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Please fill in all the required fields.");
 
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+                var newModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
 
-                return View(viewModel);
-            }           
-            if (model.Amount <= 0)
-            {
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
-
-                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
-
-                return View(viewModel);
+                return View(newModel);
             }
-            if ((model.Date < DateTime.Now) && (model.Date.Date != DateTime.Now.Date))
+
+            var viewModel = _transactionServices.CheckDepositTransactionModelIsOkAndReturnViewmodel(model);
+
+            if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
             {
-                var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
-
-                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
-
                 return View(viewModel);
             }
 
-            var account = _accountsRepository.GetOneByID(model.FromAccountId);
-            var oldBalance = model.OldAccountBalance;                      
-          
-            var newBalance = oldBalance + model.Amount;
+            _transactionServices.CreateDepositTransaction(model);                     
 
-            var newTransaction = new Transactions()
-            {
-                AccountId = model.FromAccountId,
-                Date = model.Date,
-                Type = model.Type,
-                Operation = model.Operation,
-                Amount = model.Amount,
-                Balance = newBalance,
-                Symbol = model.Symbol,
-                Bank = model.Bank,
-                Account = model.ToAccount,
-            };
-
-            _transactionsRepository.Create(newTransaction);
-
-            account.Balance = newBalance;
-            _accountsRepository.Update(account);
-
-            return View("SuccessConfirmation");          
-            
+            return View("SuccessConfirmation");                      
         }
 
         public IActionResult CreateTransaction(int id)
