@@ -100,7 +100,7 @@ namespace Bank.Services
             _accountsRepository.Update(account);
         }
 
-        public void CreateWithdrawalTransaction (TransactionViewModel model)
+        public void CreateWithdrawalTransaction (AddTransactionViewModel model)
         {
             var account = _accountsRepository.GetOneByID(model.FromAccountId);
             var oldBalance = model.OldAccountBalance;
@@ -125,7 +125,7 @@ namespace Bank.Services
             _accountsRepository.Update(account);
         }
 
-        public void CreateDepositTransaction (TransactionViewModel model)
+        public void CreateDepositTransaction (AddTransactionViewModel model)
         {
             var account = _accountsRepository.GetOneByID(model.FromAccountId);
             var oldBalance = model.OldAccountBalance;
@@ -221,7 +221,7 @@ namespace Bank.Services
             return viewModel;
         }
 
-        public TransactionViewModel CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(TransactionViewModel model)
+        public AddTransactionViewModel CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel model)
         {
             var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
 
@@ -249,7 +249,7 @@ namespace Bank.Services
             return viewModel;
         }
 
-        public TransactionViewModel CheckDepositTransactionModelIsOkAndReturnViewmodel(TransactionViewModel model)
+        public AddTransactionViewModel CheckDepositTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel model)
         {
             var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
 

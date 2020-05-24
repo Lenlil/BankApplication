@@ -122,12 +122,12 @@ namespace Bank.Services
             return accountToShow;
         }      
 
-        public TransactionViewModel CreateDepositViewModel(int accountId)
+        public AddTransactionViewModel CreateDepositViewModel(int accountId)
         {            
             var account = _accountsRepository.GetOneByID(accountId);
             var oldBalance = _accountServices.GetBalanceOnAccount(account);       
 
-            var model = new TransactionViewModel()
+            var model = new AddTransactionViewModel()
             {
                 Date = DateTime.Now,
                 Type = "Credit",
@@ -144,12 +144,12 @@ namespace Bank.Services
             return model;
         }
 
-        public TransactionViewModel CreateWithdrawalViewModel(int accountId)
+        public AddTransactionViewModel CreateWithdrawalViewModel(int accountId)
         {
             var account = _accountsRepository.GetOneByID(accountId);
             var oldBalance = _accountServices.GetBalanceOnAccount(account);
 
-            var model = new TransactionViewModel()
+            var model = new AddTransactionViewModel()
             {
                 Date = DateTime.Now,
                 Type = "Debit",

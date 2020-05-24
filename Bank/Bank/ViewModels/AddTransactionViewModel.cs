@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.ViewModels
 {
-    public class TransactionViewModel
+    public class AddTransactionViewModel
     {
         [Required(ErrorMessage = "Transaction account must be specified")]        
         public int FromAccountId { get; set; }

@@ -116,7 +116,7 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Withdrawal(TransactionViewModel model)
+        public IActionResult Withdrawal(AddTransactionViewModel model)
         {
             bool ok = true;
 
@@ -149,7 +149,7 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Deposit(TransactionViewModel model)
+        public IActionResult Deposit(AddTransactionViewModel model)
         {
             bool ok = true;
 
