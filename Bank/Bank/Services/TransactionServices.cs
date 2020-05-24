@@ -19,5 +19,10 @@ namespace Bank.Services
             _transactionsRepository = transactionsRepository;
 
         }
+
+        public bool CheckIfToAccountIdIsOk(int toAccountId, int fromAccountId)
+        {
+
+        }
     }
 }
