@@ -7,7 +7,7 @@ namespace Bank.ViewModels
 {
     public class ShowAccountDetailsViewModel
     {    
-        public List<TransactionViewModel> Transactions { get; set; } = new List<TransactionViewModel>();
+        public List<TransactionListViewModel> Transactions { get; set; } = new List<TransactionListViewModel>();
         
         public int AccountId { get; set; }
         public string Frequency { get; set; }
@@ -15,7 +15,7 @@ namespace Bank.ViewModels
         public decimal Balance { get; set; }
         //public int NumberVisibleTransactions { get; set; }
 
-        public class TransactionViewModel 
+        public class TransactionListViewModel 
         {
             public int TransactionId { get; set; }         
             public string Date { get; set; }

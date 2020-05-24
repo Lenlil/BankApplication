@@ -82,9 +82,9 @@ namespace Bank.Controllers
         {
             return Json(_accountServices.GetFrom(accountId, startPos).Select(TransactionToTransactionViewModel).ToList());
         }
-        private ShowAccountDetailsViewModel.TransactionViewModel TransactionToTransactionViewModel(Transactions x)
+        private ShowAccountDetailsViewModel.TransactionListViewModel TransactionToTransactionViewModel(Transactions x)
         {
-            return new ShowAccountDetailsViewModel.TransactionViewModel
+            return new ShowAccountDetailsViewModel.TransactionListViewModel
             {
                 TransactionId = x.TransactionId,
                 Date = x.Date.ToShortDateString(),

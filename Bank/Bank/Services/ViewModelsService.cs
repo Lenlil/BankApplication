@@ -170,7 +170,7 @@ namespace Bank.Services
             return accountToShow;
         }
 
-        public AddTransactionViewModel CreateAddTransactionViewModel(int accountId)
+        public TransactionViewModel CreateAddTransactionViewModel(int accountId)
         {
             var allTransactions = _transactionsRepository.GetAll();
             var account = _accountsRepository.GetOneByID(accountId);
@@ -190,7 +190,7 @@ namespace Bank.Services
                                       Value = x.Operation.ToString()
                                   }).Distinct();
        
-            var model = new AddTransactionViewModel()
+            var model = new TransactionViewModel()
             {
                 Date = DateTime.Now,
                 Types = typesListitems,
@@ -207,7 +207,7 @@ namespace Bank.Services
             return model;
         }
 
-        public AddTransactionViewModel AddSelectItemsListToTransactionViewModel(AddTransactionViewModel model)
+        public TransactionViewModel AddSelectItemsListToTransactionViewModel(TransactionViewModel model)
         {
             var allTransactions = _transactionsRepository.GetAll();
 
@@ -236,12 +236,12 @@ namespace Bank.Services
             return model;
         }
 
-        public AddTransactionViewModel CreateDepositViewModel(int accountId)
+        public TransactionViewModel CreateDepositViewModel(int accountId)
         {            
             var account = _accountsRepository.GetOneByID(accountId);
             var oldBalance = _accountServices.GetBalanceOnAccount(account);       
 
-            var model = new AddTransactionViewModel()
+            var model = new TransactionViewModel()
             {
                 Date = DateTime.Now,
                 Type = "Credit",
@@ -258,12 +258,12 @@ namespace Bank.Services
             return model;
         }
 
-        public AddTransactionViewModel CreateWithdrawalViewModel(int accountId)
+        public TransactionViewModel CreateWithdrawalViewModel(int accountId)
         {
             var account = _accountsRepository.GetOneByID(accountId);
             var oldBalance = _accountServices.GetBalanceOnAccount(account);
 
-            var model = new AddTransactionViewModel()
+            var model = new TransactionViewModel()
             {
                 Date = DateTime.Now,
                 Type = "Debit",
