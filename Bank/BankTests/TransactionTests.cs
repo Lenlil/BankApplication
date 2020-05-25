@@ -19,15 +19,7 @@ namespace BankTests
          Mock<IDispositionsRepository> dispositionsRepositoryMock;
          Mock<ITransactionsRepository> transactionsRepositoryMock;
          Mock<ViewModelsService> viewmodelsServicesMock;
-         Mock<AccountServices> accountServicesMock;
-
-        //private TransactionServices sut;
-
-        //private Mock<IAccountsRepository> accountsRepositoryMock;
-        //private Mock<IDispositionsRepository> dispositionsRepositoryMock;
-        //private Mock<ITransactionsRepository> transactionsRepositoryMock;
-        //private Mock<ViewModelsService> viewmodelsServicesMock;
-        //private Mock<AccountServices> accountServicesMock;
+         Mock<AccountServices> accountServicesMock;       
 
         public TransactionTests()
         {
@@ -38,19 +30,7 @@ namespace BankTests
             viewmodelsServicesMock = new Mock<ViewModelsService>(accountsRepositoryMock.Object, accountServicesMock.Object);
 
             sut = new TransactionServices(accountsRepositoryMock.Object, dispositionsRepositoryMock.Object, transactionsRepositoryMock.Object, viewmodelsServicesMock.Object, accountServicesMock.Object);
-        }
-
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    accountsRepositoryMock = new Mock<IAccountsRepository>();
-        //    dispositionsRepositoryMock = new Mock<IDispositionsRepository>();
-        //    transactionsRepositoryMock = new Mock<ITransactionsRepository>();
-        //    viewmodelsServicesMock = new Mock<ViewModelsService>();
-        //    accountServicesMock = new Mock<AccountServices>();
-
-        //    sut = new TransactionServices(accountsRepositoryMock.Object, dispositionsRepositoryMock.Object, transactionsRepositoryMock.Object, viewmodelsServicesMock.Object, accountServicesMock.Object);
-        //}       
+        }       
 
         [TestMethod]
         public void When_withdrawing_cant_take_more_money_than_balance_on_account()
@@ -72,7 +52,7 @@ namespace BankTests
         }
 
         [TestMethod]
-        public void When_withdrawing_can_take_less_or_equal_money_to_balance_on_account()
+        public void When_withdrawing_can_take_equal_money_to_balance_on_account()
         {
             var model = new AddTransactionViewModel
             {
@@ -81,6 +61,26 @@ namespace BankTests
                 Type = "Debit",
                 Operation = "Withdrawal in Cash",
                 Amount = 1000,
+                FromAccountId = 1,
+            };
+
+            var expectedErrorMessage = "";
+
+            var newModel = sut.CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(model);
+
+            Assert.AreEqual(expectedErrorMessage, newModel.ErrorMessageViewModel.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void When_withdrawing_can_take_less_money_than_balance_on_account()
+        {
+            var model = new AddTransactionViewModel
+            {
+                Date = DateTime.Now,
+                OldAccountBalance = 1000,
+                Type = "Debit",
+                Operation = "Withdrawal in Cash",
+                Amount = 500,
                 FromAccountId = 1,
             };
 

@@ -151,79 +151,109 @@ namespace Bank.Services
             _accountsRepository.Update(account);
         }
 
-        public TransferThisBankTransactionViewModel CheckTransferThisBankModelIsOkAndReturnViewmodel(TransferThisBankTransactionViewModel model)
-        {
-            var viewModel = _viewmodelsServices.CreateTransferThisBankTransactionViewModel(model.FromAccountId);
-
-            if (!IsToAccountOk(model.ToAccountId, model.FromAccountId))
-            {               
-                viewModel.ErrorMessageViewModel.ErrorMessage = "Enter the Account ID you want to transfer to.";
-
-                return viewModel;
-            }
-
-            if (!IsAmountOk(model.Amount))
-            {                
-                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+        public TransferThisBankTransactionViewModel CheckTransferThisBankModelIsOkAndReturnViewmodel(TransferThisBankTransactionViewModel viewModel)
+        {           
+            if (!IsToAccountOk(viewModel.ToAccountId, viewModel.FromAccountId))
+            {
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "Enter the Account ID you want to transfer money to."
+                };                
 
                 return viewModel;
             }
 
-            if (!IsDateOk(model.Date))
-            {                
-                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+            if (!IsAmountOk(viewModel.Amount))
+            {
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "The amount entered cannot be negative or 0."
+                };
+
+                return viewModel;
+            }
+
+            if (!IsDateOk(viewModel.Date))
+            {
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "You cannot make a transaction in the past."
+                };
 
                 return viewModel;
             }          
 
-            if (!DoesToAccountExistInThisBank(model.ToAccountId))
-            {                
-                viewModel.ErrorMessageViewModel.ErrorMessage = "No such account esixts. Enter the Account ID you want to transfer to.";
+            if (!DoesToAccountExistInThisBank(viewModel.ToAccountId))
+            {
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "No such account exists. Enter the Account ID you want to transfer to."
+                };                
 
                 return viewModel;
             }                       
 
-            if (!IsBalanceEnough(model.Amount, model.OldAccountBalance))
-            {               
-                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
+            if (!IsBalanceEnough(viewModel.Amount, viewModel.OldAccountBalance))
+            {
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "Insufficient funds on account to perform the transaction."
+                };
 
                 return viewModel;
             }
+
+            viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
 
             return viewModel;
         }
 
-        public TransferTransactionViewModel CheckTransferOtherBankModelIsOkAndReturnViewmodel(TransferTransactionViewModel model)
-        {
-            var viewModel = _viewmodelsServices.CreateTransferViewModel(model.FromAccountId);
+        public TransferTransactionViewModel CheckTransferOtherBankModelIsOkAndReturnViewmodel(TransferTransactionViewModel viewModel)
+        {            
 
-            if (!IsAmountOk(model.Amount))
+            if (!IsAmountOk(viewModel.Amount))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "The amount entered cannot be negative or 0."
+                };
 
                 return viewModel;
             }
 
-            if (!IsDateOk(model.Date))
+            if (!IsDateOk(viewModel.Date))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "You cannot make a transaction in the past."
+                };
 
                 return viewModel;
             }
 
-            if (!IsBalanceEnough(model.Amount, model.OldAccountBalance))
+            if (!IsBalanceEnough(viewModel.Amount, viewModel.OldAccountBalance))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "Insufficient funds on account to perform the transaction."
+                };
 
                 return viewModel;
             }
+
+            viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
 
             return viewModel;
         }
 
         public AddTransactionViewModel CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel viewModel)
-        {
-            //var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
+        {         
 
             if (!IsAmountOk(viewModel.Amount))
             {
@@ -263,23 +293,33 @@ namespace Bank.Services
             return viewModel;
         }
 
-        public AddTransactionViewModel CheckDepositTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel model)
-        {
-            var viewModel = _viewmodelsServices.CreateDepositViewModel(model.FromAccountId);
+        public AddTransactionViewModel CheckDepositTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel viewModel)
+        {           
 
-            if (!IsAmountOk(model.Amount))
+            if (!IsAmountOk(viewModel.Amount))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "The amount entered cannot be negative or 0."
+                };
 
                 return viewModel;
             }
 
-            if (!IsDateOk(model.Date))
+            if (!IsDateOk(viewModel.Date))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "You cannot make a transaction in the past."
+                };
 
                 return viewModel;
-            }        
+            }
+
+            viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
 
             return viewModel;
         }
