@@ -91,17 +91,69 @@ namespace BankTests
             Assert.AreEqual(expectedErrorMessage, newModel.ErrorMessageViewModel.ErrorMessage);
         }
 
-        //[TestMethod]
-        //public void When_transferring_inside_bank_cant_take_more_money_than_balance_on_account()
-        //{
+        [TestMethod]
+        public void When_withdrawing_cannot_enter_negative_amount()
+        {
+            var model = new AddTransactionViewModel
+            {
+                Date = DateTime.Now,
+                OldAccountBalance = 1000,
+                Type = "Debit",
+                Operation = "Withdrawal in Cash",
+                Amount = -500,
+                FromAccountId = 1,
+            };
 
-        //}
+            var expectedErrorMessage = "The amount entered cannot be negative or 0.";
 
-        //[TestMethod]
-        //public void When_transferring_outside_bank_cant_take_more_money_than_balance_on_account()
-        //{
+            var newModel = sut.CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(model);
 
-        //}
+            Assert.AreEqual(expectedErrorMessage, newModel.ErrorMessageViewModel.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void When_transferring_inside_bank_cant_take_more_money_than_balance_on_account()
+        {
+            var model = new TransferThisBankTransactionViewModel
+            {              
+                Date = DateTime.Now,
+                Type = "Debit",
+                Operation = "Remittance to Another Account",
+                FromAccountId = 1,
+                OldAccountBalance = 1000,
+                Bank = "Bitcoin Bank", 
+                ToAccountId = 2, 
+                Amount = 2000
+            };
+
+            var expectedErrorMessage = "Insufficient funds on account to perform the transaction.";
+
+            var newModel = sut.CheckTransferThisBankModelIsOkAndReturnViewmodel(model);
+
+            Assert.AreEqual(expectedErrorMessage, newModel.ErrorMessageViewModel.ErrorMessage);
+        }
+
+        [TestMethod]
+        public void When_transferring_outside_bank_cant_take_more_money_than_balance_on_account()
+        {
+            var model = new TransferTransactionViewModel
+            {
+                Date = DateTime.Now,
+                Type = "Debit",
+                Operation = "Remittance to Another Bank",
+                FromAccountId = 1,
+                OldAccountBalance = 1000,
+                Bank = "Bitcoin Bank",
+                ToAccount = "1234",
+                Amount = 2000
+            };
+
+            var expectedErrorMessage = "Insufficient funds on account to perform the transaction.";
+
+            var newModel = sut.CheckTransferOtherBankModelIsOkAndReturnViewmodel(model);
+
+            Assert.AreEqual(expectedErrorMessage, newModel.ErrorMessageViewModel.ErrorMessage);
+        }
 
         //[TestMethod]
         //public void When_depositing_cannot_enter_negative_amount()
@@ -109,11 +161,7 @@ namespace BankTests
 
         //}
 
-        //[TestMethod]
-        //public void When_withdrawing_cannot_enter_negative_amount()
-        //{
 
-        //}
 
         //[TestMethod]
         //public void When_transactions_is_created_it_is_ok()

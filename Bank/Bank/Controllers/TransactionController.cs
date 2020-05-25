@@ -61,6 +61,17 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
+            //This validation was originally in CheckTransferThisBankModelIsOkAndReturnViewmodel with the others, but because of unittesting-error I moved it here
+            if (!_transactionServices.DoesToAccountExistInThisBank(model.ToAccountId))
+            {
+                model.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "No such account exists. Enter the Account ID you want to transfer to."
+                };
+
+                return View(model);
+            }
+
             model = _transactionServices.CheckTransferThisBankModelIsOkAndReturnViewmodel(model);
 
             if (model.ErrorMessageViewModel.ErrorMessage != "")
@@ -172,6 +183,8 @@ namespace Bank.Controllers
             _transactionServices.CreateDepositTransaction(model);                     
 
             return View("SuccessConfirmation");                      
-        }        
+        }
+
+       
     }
 }

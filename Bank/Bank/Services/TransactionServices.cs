@@ -183,15 +183,7 @@ namespace Bank.Services
                 return viewModel;
             }          
 
-            if (!DoesToAccountExistInThisBank(viewModel.ToAccountId))
-            {
-                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
-                {
-                    ErrorMessage = "No such account exists. Enter the Account ID you want to transfer to."
-                };                
-
-                return viewModel;
-            }                       
+            
 
             if (!IsBalanceEnough(viewModel.Amount, viewModel.OldAccountBalance))
             {
@@ -350,20 +342,21 @@ namespace Bank.Services
             }
             return true;
         }
-
-        private bool DoesToAccountExistInThisBank(int toAccountId)
-        {
-            var targetAccount = _accountsRepository.GetOneByID(toAccountId);
-
-            if (targetAccount == null)
+     
+        private bool IsBalanceEnough(decimal amount, decimal balance)
+        {           
+            if (amount > balance)
             {
                 return false;
             }
             return true;
         }
-        private bool IsBalanceEnough(decimal amount, decimal balance)
-        {           
-            if (amount > balance)
+
+        public bool DoesToAccountExistInThisBank(int toAccountId)
+        {
+            var targetAccount = _accountsRepository.GetOneByID(toAccountId);
+
+            if (targetAccount == null)
             {
                 return false;
             }
