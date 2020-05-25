@@ -244,7 +244,7 @@ namespace Bank.Services
                 viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
 
                 return viewModel;
-            }
+            }          
 
             return viewModel;
         }

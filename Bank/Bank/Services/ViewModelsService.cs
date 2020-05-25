@@ -11,21 +11,12 @@ namespace Bank.Services
 {
     public class ViewModelsService
     {        
-        private readonly IAccountsRepository _accountsRepository;
-        private readonly ICustomersRepository _customersRepository;
-        private readonly IDispositionsRepository _dispositionsRepository;
-        private readonly ITransactionsRepository _transactionsRepository;
-        private readonly CustomerSearchService _customerSearchService;
+        private readonly IAccountsRepository _accountsRepository;       
         private readonly AccountServices _accountServices;       
 
-        public ViewModelsService( IAccountsRepository accountRepository,
-            ICustomersRepository customersRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, CustomerSearchService searchService, AccountServices accountServices)
+        public ViewModelsService( IAccountsRepository accountRepository, AccountServices accountServices)
         {            
-            _accountsRepository = accountRepository;
-            _customersRepository = customersRepository;
-            _dispositionsRepository = dispositionsRepository;
-            _transactionsRepository = transactionsRepository;
-            _customerSearchService = searchService;
+            _accountsRepository = accountRepository;        
             _accountServices = accountServices;           
         }
 
