@@ -221,30 +221,44 @@ namespace Bank.Services
             return viewModel;
         }
 
-        public AddTransactionViewModel CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel model)
+        public AddTransactionViewModel CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(AddTransactionViewModel viewModel)
         {
-            var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
+            //var viewModel = _viewmodelsServices.CreateWithdrawalViewModel(model.FromAccountId);
 
-            if (!IsAmountOk(model.Amount))
+            if (!IsAmountOk(viewModel.Amount))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "The amount entered cannot be negative or 0.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "The amount entered cannot be negative or 0."
+                };                
 
                 return viewModel;
             }
 
-            if (!IsDateOk(model.Date))
+            if (!IsDateOk(viewModel.Date))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "You cannot make a transaction in the past.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "You cannot make a transaction in the past."
+                };                
 
                 return viewModel;
             }
 
-            if (!IsBalanceEnough(model.Amount, model.OldAccountBalance))
+            if (!IsBalanceEnough(viewModel.Amount, viewModel.OldAccountBalance))
             {
-                viewModel.ErrorMessageViewModel.ErrorMessage = "Insufficient funds on account to perform the transaction.";
+                viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+                {
+                    ErrorMessage = "Insufficient funds on account to perform the transaction."
+                };                
 
                 return viewModel;
-            }          
+            }
+
+            viewModel.ErrorMessageViewModel = new ErrorMessageViewModel()
+            {
+                ErrorMessage = ""
+            };
 
             return viewModel;
         }

@@ -37,11 +37,8 @@ namespace Bank.ViewModels
         [MaxLength(50)]
         public string Bank { get; set; }
         [MaxLength(50)]
-        public string ToAccount { get; set; }
-        
-        public IQueryable<SelectListItem> Types { get; set; }
-        public IQueryable<SelectListItem> Operations { get; set; }
-        public IQueryable<SelectListItem> Symbols { get; set; }
+        public string ToAccount { get; set; }        
+    
         public ErrorMessageViewModel ErrorMessageViewModel { get; set; }
     }    
 }
