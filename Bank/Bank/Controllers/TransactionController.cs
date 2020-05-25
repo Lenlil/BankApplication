@@ -61,11 +61,11 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
-            var viewModel = _transactionServices.CheckTransferThisBankModelIsOkAndReturnViewmodel(model);
+            model = _transactionServices.CheckTransferThisBankModelIsOkAndReturnViewmodel(model);
 
-            if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
+            if (model.ErrorMessageViewModel.ErrorMessage != "")
             {                         
-                return View(viewModel);
+                return View(model);
             }
 
             _transactionServices.CreateTransferThisBankFromAccountTransaction(model);
@@ -95,11 +95,11 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
-            var viewModel = _transactionServices.CheckTransferOtherBankModelIsOkAndReturnViewmodel(model);
+            model = _transactionServices.CheckTransferOtherBankModelIsOkAndReturnViewmodel(model);
 
-            if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
+            if (model.ErrorMessageViewModel.ErrorMessage != "")
             {
-                return View(viewModel);
+                return View(model);
             }
 
             _transactionServices.CreateTransferToOtherBankTransaction(model);                           
@@ -129,11 +129,11 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
-            var viewModel = _transactionServices.CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(model);
+            model = _transactionServices.CheckWithdrawalTransactionModelIsOkAndReturnViewmodel(model);
 
-            if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
+            if (model.ErrorMessageViewModel.ErrorMessage != "")
             {
-                return View(viewModel);
+                return View(model);
             }
 
             _transactionServices.CreateWithdrawalTransaction(model);            
@@ -162,11 +162,11 @@ namespace Bank.Controllers
                 return View(newModel);
             }
 
-            var viewModel = _transactionServices.CheckDepositTransactionModelIsOkAndReturnViewmodel(model);
+            model = _transactionServices.CheckDepositTransactionModelIsOkAndReturnViewmodel(model);
 
-            if (viewModel.ErrorMessageViewModel.ErrorMessage != "")
+            if (model.ErrorMessageViewModel.ErrorMessage != "")
             {
-                return View(viewModel);
+                return View(model);
             }
 
             _transactionServices.CreateDepositTransaction(model);                     

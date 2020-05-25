@@ -33,7 +33,7 @@ namespace BankTests
         }       
 
         [TestMethod]
-        public void When_withdrawing_cant_take_more_money_than_balance_on_account()
+        public void When_withdrawing_can_not_take_more_money_than_balance_on_account()
         {
             var model = new AddTransactionViewModel { 
                 Date = DateTime.Now, 
