@@ -158,6 +158,58 @@ namespace BankTests
         }
 
         [TestMethod]
+        public void Transfer_to_other_bank_transaction_is_created_ok()
+        {
+            List<Accounts> accounts = ctx.Accounts.ToList();
+            var fromAccount = accounts[0];
+            fromAccount.Balance = 1000;
+            ctx.Accounts.Update(fromAccount);
+            ctx.SaveChanges();            
+
+            var model = new TransferTransactionViewModel
+            {
+                Date = DateTime.Now.Date,
+                OldAccountBalance = fromAccount.Balance,
+                Type = "Debit",
+                Operation = "Remittance to Another Bank",
+                Amount = 500,
+                FromAccountId = fromAccount.AccountId,
+                Symbol = null,
+                Bank = null,
+                ToAccount = null
+            };
+
+            var expectedTransaction = new Transactions
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Balance = model.OldAccountBalance - model.Amount,
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = -model.Amount,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccount
+            };         
+
+            sut.CreateTransferToOtherBankTransaction(model);
+
+            IQueryable<Transactions> transactions = ctx.Transactions;
+            var transactionID = transactions.Max(x => x.TransactionId);
+            var createdTransaction = transactions.Where(x => x.TransactionId == transactionID).FirstOrDefault();
+
+            Assert.AreEqual(expectedTransaction.AccountId, createdTransaction.AccountId);
+            Assert.AreEqual(expectedTransaction.Date, createdTransaction.Date);
+            Assert.AreEqual(expectedTransaction.Balance, createdTransaction.Balance);
+            Assert.AreEqual(expectedTransaction.Type, createdTransaction.Type);
+            Assert.AreEqual(expectedTransaction.Operation, createdTransaction.Operation);
+            Assert.AreEqual(expectedTransaction.Amount, createdTransaction.Amount);
+            Assert.AreEqual(expectedTransaction.Symbol, createdTransaction.Symbol);
+            Assert.AreEqual(expectedTransaction.Bank, createdTransaction.Bank);
+            Assert.AreEqual(expectedTransaction.Account, createdTransaction.Account);
+        }
+
+        [TestMethod]
         public void Transfer_within_bank_transactions_are_created_ok()
         {
             List<Accounts> accounts = ctx.Accounts.ToList();
