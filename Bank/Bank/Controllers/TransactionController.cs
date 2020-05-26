@@ -62,7 +62,7 @@ namespace Bank.Controllers
             }
 
             //This validation was originally in CheckTransferThisBankModelIsOkAndReturnViewmodel with the others, but because of unittesting-error I moved it here
-            if (!_transactionServices.DoesToAccountExistInThisBank(model.ToAccountId))
+            if (!_transactionServices.ToAccountExistInThisBank(model.ToAccountId))
             {
                 model.ErrorMessageViewModel = new ErrorMessageViewModel()
                 {

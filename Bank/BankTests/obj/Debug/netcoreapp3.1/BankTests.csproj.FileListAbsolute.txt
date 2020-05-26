@@ -214,6 +214,8 @@ C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug\netcoreapp3.1\Moq.dll
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug\netcoreapp3.1\BankTests.pdb
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
-C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\obj\Debug\netcoreapp3.1\BankTests.csproj.CoreCompileInputs.cache
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\obj\Debug\netcoreapp3.1\BankTests.dll
 C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\obj\Debug\netcoreapp3.1\BankTests.pdb
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug\netcoreapp3.1\AutoFixture.dll
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\bin\Debug\netcoreapp3.1\Fare.dll
+C:\Users\user\source\repos\ASPNETMVC2_Inlamningsuppgift\Bank\BankTests\obj\Debug\netcoreapp3.1\BankTests.csproj.CoreCompileInputs.cache

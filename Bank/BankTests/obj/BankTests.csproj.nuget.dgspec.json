@@ -45,6 +45,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "AutoFixture": {
+              "target": "Package",
+              "version": "[4.11.0, )"
+            },
             "MSTest.TestAdapter": {
               "target": "Package",
               "version": "[2.1.0, )"
@@ -129,6 +133,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "AutoFixture": {
+              "target": "Package",
+              "version": "[4.11.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.3, )"

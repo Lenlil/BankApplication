@@ -12,16 +12,14 @@ namespace Bank.Services
     {
         private readonly IAccountsRepository _accountsRepository;
         private readonly IDispositionsRepository _dispositionsRepository;
-        private readonly ITransactionsRepository _transactionsRepository;
-        private readonly ViewModelsService _viewmodelsServices;
+        private readonly ITransactionsRepository _transactionsRepository;       
         private readonly AccountServices _accountServices;
 
-        public TransactionServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, ViewModelsService viewmodelsServices, AccountServices accountServices)
+        public TransactionServices(IAccountsRepository accountsRepository, IDispositionsRepository dispositionsRepository, ITransactionsRepository transactionsRepository, AccountServices accountServices)
         {
             _accountsRepository = accountsRepository;
             _dispositionsRepository = dispositionsRepository;
-            _transactionsRepository = transactionsRepository;
-            _viewmodelsServices = viewmodelsServices;
+            _transactionsRepository = transactionsRepository;    
             _accountServices = accountServices;
         }
 
@@ -181,9 +179,7 @@ namespace Bank.Services
                 };
 
                 return viewModel;
-            }          
-
-            
+            }                     
 
             if (!IsBalanceEnough(viewModel.Amount, viewModel.OldAccountBalance))
             {
@@ -352,7 +348,7 @@ namespace Bank.Services
             return true;
         }
 
-        public bool DoesToAccountExistInThisBank(int toAccountId)
+        public bool ToAccountExistInThisBank(int toAccountId)
         {
             var targetAccount = _accountsRepository.GetOneByID(toAccountId);
 
