@@ -2,6 +2,7 @@ using AutoFixture;
 using Bank.Data;
 using Bank.Interfaces;
 using Bank.Models;
+using Bank.Repositories;
 using Bank.Services;
 using Bank.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -17,22 +18,22 @@ namespace BankTests
     public class TransactionServiceTests
     {        
          TransactionServices sut;
-         Mock<IAccountsRepository> accountsRepositoryMock;
-         Mock<IDispositionsRepository> dispositionsRepositoryMock;
-         Mock<ITransactionsRepository> transactionsRepositoryMock;        
-         Mock<AccountServices> accountServicesMock;
+         AccountsDbRepository accountsRepository;
+         DispositionsDbRepository dispositionsRepository;
+         TransactionsDbRepository transactionsRepository;        
+         AccountServices accountServices;
 
          ApplicationDbContext ctx;
 
         public TransactionServiceTests()
         {
             ctx = GetContextWithData();
-            accountsRepositoryMock = new Mock<IAccountsRepository>();
-            dispositionsRepositoryMock = new Mock<IDispositionsRepository>();
-            transactionsRepositoryMock = new Mock<ITransactionsRepository>();            
-            accountServicesMock = new Mock<AccountServices>(accountsRepositoryMock.Object, dispositionsRepositoryMock.Object, transactionsRepositoryMock.Object);            
+            accountsRepository = new AccountsDbRepository(ctx);
+            dispositionsRepository = new DispositionsDbRepository(ctx);
+            transactionsRepository = new TransactionsDbRepository(ctx);            
+            accountServices = new AccountServices(accountsRepository, dispositionsRepository, transactionsRepository);            
 
-            sut = new TransactionServices(accountsRepositoryMock.Object, dispositionsRepositoryMock.Object, transactionsRepositoryMock.Object, accountServicesMock.Object);
+            sut = new TransactionServices(accountsRepository, dispositionsRepository, transactionsRepository, accountServices);
         }
 
         private ApplicationDbContext GetContextWithData()
@@ -56,16 +57,14 @@ namespace BankTests
         public void Withdrawal_transaction_is_created_ok()
         {           
             List<Accounts> accounts = ctx.Accounts.ToList();
-
             var fromAccount = accounts[0];
-
             fromAccount.Balance = 1000;
             ctx.Accounts.Update(fromAccount);            
             ctx.SaveChanges();           
 
             var model = new AddTransactionViewModel
             {
-                Date = DateTime.Now,
+                Date = DateTime.Now.Date,
                 OldAccountBalance = fromAccount.Balance,
                 Type = "Debit",
                 Operation = "Withdrawal in Cash",
@@ -81,21 +80,81 @@ namespace BankTests
                 AccountId = model.FromAccountId,
                 Date = model.Date,
                 Balance = model.OldAccountBalance - model.Amount,
-                Type = "Debit",
-                Operation = "Withdrawal in Cash",
+                Type = model.Type,
+                Operation = model.Operation,
+                Amount = -model.Amount,
+                Symbol = model.Symbol,
+                Bank = model.Bank,
+                Account = model.ToAccount
+            };
+            
+            sut.CreateWithdrawalTransaction(model);
+
+            IQueryable<Transactions> transactions = ctx.Transactions;
+            var transactionID = transactions.Max(x => x.TransactionId);
+            var createdTransaction = transactions.Where(x => x.TransactionId == transactionID).FirstOrDefault();
+
+            Assert.AreEqual(expectedTransaction.AccountId, createdTransaction.AccountId);
+            Assert.AreEqual(expectedTransaction.Date, createdTransaction.Date);
+            Assert.AreEqual(expectedTransaction.Balance, createdTransaction.Balance);
+            Assert.AreEqual(expectedTransaction.Type, createdTransaction.Type);
+            Assert.AreEqual(expectedTransaction.Operation, createdTransaction.Operation);
+            Assert.AreEqual(expectedTransaction.Amount, createdTransaction.Amount);
+            Assert.AreEqual(expectedTransaction.Symbol, createdTransaction.Symbol);
+            Assert.AreEqual(expectedTransaction.Bank, createdTransaction.Bank);
+            Assert.AreEqual(expectedTransaction.Account, createdTransaction.Account);
+        }
+
+        [TestMethod]
+        public void Deposit_transaction_is_created_ok()
+        {
+            List<Accounts> accounts = ctx.Accounts.ToList();
+            var fromAccount = accounts[0];
+            fromAccount.Balance = 1000;
+            ctx.Accounts.Update(fromAccount);
+            ctx.SaveChanges();
+
+            var model = new AddTransactionViewModel
+            {
+                Date = DateTime.Now.Date,
+                OldAccountBalance = fromAccount.Balance,
+                Type = "Credit",
+                Operation = "Credit in Cash",
+                Amount = 500,
+                FromAccountId = fromAccount.AccountId,
+                Symbol = null,
+                Bank = null,
+                ToAccount = null
+            };
+
+            var expectedTransaction = new Transactions
+            {
+                AccountId = model.FromAccountId,
+                Date = model.Date,
+                Balance = model.OldAccountBalance + model.Amount,
+                Type = model.Type,
+                Operation = model.Operation,
                 Amount = model.Amount,
                 Symbol = model.Symbol,
                 Bank = model.Bank,
                 Account = model.ToAccount
             };
 
-            //Hur får jag in ctx i mitt mock-repository??
-            sut.CreateWithdrawalTransaction(model);
+            sut.CreateDepositTransaction(model);
 
-            List<Transactions> transactions = ctx.Transactions.ToList();
-            var createdTransaction = transactions[0];
+            IQueryable<Transactions> transactions = ctx.Transactions;
+            var transactionID = transactions.Max(x => x.TransactionId);
+            var createdTransaction = transactions.Where(x => x.TransactionId == transactionID).FirstOrDefault();
 
-            Assert.AreEqual(expectedTransaction, createdTransaction);
+            Assert.AreEqual(expectedTransaction.AccountId, createdTransaction.AccountId);
+            Assert.AreEqual(expectedTransaction.Date, createdTransaction.Date);
+            Assert.AreEqual(expectedTransaction.Balance, createdTransaction.Balance);
+            Assert.AreEqual(expectedTransaction.Type, createdTransaction.Type);
+            Assert.AreEqual(expectedTransaction.Operation, createdTransaction.Operation);
+            Assert.AreEqual(expectedTransaction.Amount, createdTransaction.Amount);
+            Assert.AreEqual(expectedTransaction.Symbol, createdTransaction.Symbol);
+            Assert.AreEqual(expectedTransaction.Bank, createdTransaction.Bank);
+            Assert.AreEqual(expectedTransaction.Account, createdTransaction.Account);
         }
 
 
